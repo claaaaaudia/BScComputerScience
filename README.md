@@ -1,6 +1,6 @@
 # 🎓 Computer Science Bachelor Projects — University of Minho
 
-This repository is a curated collection of projects and lab assignments developed throughout my Bachelor’s degree in Computer Science at the University of Minho. Each project contributed to building a strong theoretical foundation alongside practical development experience.
+This repository is a collection of projects and lab assignments developed throughout my Bachelor’s degree in Computer Science at the University of Minho. Each project contributed to building a strong theoretical foundation alongside practical development experience.
 
 Each folder contains the corresponding source code and reports for specific courses. Below is an overview of the projects, along with their main goals and the skills acquired.
 
