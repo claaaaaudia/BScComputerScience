@@ -1,0 +1,279 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.List;
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.ArrayList;
+
+interface TopTenCallback {
+  void onTopTenReceived(String[] players);
+}
+
+class ClientConnection {
+  Socket socket;
+  PrintWriter out;
+  BufferedReader in;
+  
+  boolean isLoggedIn = false;
+  private TopTenCallback topTenCallback;
+
+  //game
+  Player player1 = new Player();
+  Player opponent = new Player();
+  ArrayList<Projectile> projectiles = new ArrayList<>();
+  ArrayList<Modifier> modifiers = new ArrayList<>();
+  boolean inLobby = false;
+  boolean inGame = false;
+  boolean playersInitialized = false; // Flag to ensure players are initialized only once
+
+  ClientConnection(String serverIP, int port) throws IOException, SocketException {
+    try {
+      socket = new Socket(serverIP, port);
+      out = new PrintWriter(socket.getOutputStream(), true);
+      in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      println("Ligado ao servidor!");
+      
+      // Iniciar uma thread para receber mensagens do servidor
+      new Thread(() -> {
+        try {
+          while (true) {
+            String message = in.readLine();
+            if (message != null) {
+              println("Recebido do servidor: " + message);
+              handleServerMessage(message);
+            }
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }).start();
+    } catch(Exception e) {
+      println("Error connecting to server: " + e.getMessage());
+      throw new IOException("Failed to connect to server", e);
+    }
+  }
+     
+  void setTopTenCallback(TopTenCallback callback) {
+     this.topTenCallback = callback;
+  }
+  
+void close() {
+  try {
+    if (out != null) out.close();
+    if (in != null) in.close();
+    if (socket != null && !socket.isClosed()) socket.close();
+  } catch (IOException e) {
+    println("Error closing connection: " + e.getMessage());
+  }
+}
+
+  
+  void sendCommand(String cmd) {
+    if (out != null) {
+      out.println(cmd);
+      println("Enviado: " + cmd);
+    }
+  }
+  
+  synchronized void handleServerMessage(String message) throws IOException{
+    try{
+      if (message.startsWith("login:")) {
+        if (message.equals("login:done")) {
+          this.isLoggedIn = true;
+          println("Login successful!");
+          
+        } else if (message.equals("login:invalid_password")) {
+          println("Senha incorreta!");
+          
+        } else if (message.equals("login:invalid_user")) {
+          println("Usuário não existe!");
+          
+        } else if (message.equals("login:already_login")) {
+          println("Usuário já está logado!");
+        }
+        
+        return;
+      }
+      
+      if (message.startsWith("logout:")) {
+        if (message.equals("logout:done")) {
+          this.isLoggedIn = false;
+          println("Logout successful!");
+          
+        } else if (message.equals("logout:invalid_user")) {
+          println("Usuário errado!");
+          
+        } else if (message.equals("logout:already_logout")) {
+          println("Usuário não estava logado!");
+        }
+        
+        return;
+      }
+      
+      if (message.startsWith("create_account:")) {
+        if (message.equals("create_account:done")) {
+          this.isLoggedIn = false;
+          println("Conta criada com sucesso!");
+        } else if (message.equals("create_account:user_exists")) {
+          println("Usuário já existe!");
+        } else if (message.equals("create_account:invalid_password")) {
+          println("Senha inválida!");
+        } else if (message.equals("create_account:invalid_format")) {
+          println("Formato inválido!");
+        }
+        return;
+      }
+      
+      if (message.startsWith("remove_account:")) {
+        if (message.equals("remove_account:done_remove")) {
+          println("Conta removida com sucesso!");
+        } else if (message.equals("remove_account:invalid_user")) {
+          println("Usuário não existe!");
+        } else if (message.equals("remove_account:invalid_password")) {
+          println("Senha inválida!");
+        }
+        return;
+      }
+      
+      if (message.startsWith("join:")) {
+        if (message.equals("join:done")) {
+          this.inLobby = true;
+          println("Entrou no lobby!");
+        } else if (message.equals("join:error:")) {
+          String data = message.substring("join:error".length());
+          println("Erro, não foi possível entrar no lobby.", data);
+        }
+        return;
+      }
+      
+      if (message.startsWith("leave:")) {
+        if (message.equals("leave:done")) {
+            this.inLobby = false;
+            println("Saiu do lobby com sucesso!");
+        } else if(message.equals("leave:not_in_lobby")){
+            println("Jogador não está no lobby..");
+        } else if(message.startsWith("leave:error:")){
+          String data = message.substring("leave:error:".length());
+          println("Erro, não foi possível sair do lobby:", data);
+        } else if(message.equals("leave:timeout")) {
+        println("Timeout ao tentar sair do lobby");
+        }
+        return;
+      }
+      
+      if (message.startsWith("top_ten:")) {
+           if (message.startsWith("top_ten:done:")) {
+                String playersData = message.substring("top_ten:done:".length());
+                String[] players = playersData.split(",");
+                    
+                if (topTenCallback != null) {
+                    topTenCallback.onTopTenReceived(players);
+                }
+            } else if (message.startsWith("top_ten:error:")) {
+                String error = message.substring("top_ten:error:".length());
+                println("Leaderboard error: " + error);
+            }
+            return;
+        }
+      
+      if (message.startsWith("game:") && this.inGame) {
+        updateGameState(message.substring(5));
+      }
+      
+      if (message.equals("win")) {
+          println("You won the game!");
+          // Handle win logic here
+      } 
+      if (message.equals("lose")) {
+          println("You lost the game!");
+          // Handle lose logic here
+      }
+      if (message.equals("draw")) {
+          println("It's a draw!");
+      }
+      
+    } catch (Exception e) {
+      println("Erro ao processar mensagem do servidor: " + e.getMessage());
+      e.printStackTrace();
+    } 
+    if (message.startsWith("match:")){
+      if (message.equals("match:starting")){
+        this.inLobby = false;
+        this.inGame = true;
+        return;
+      } 
+      else if (message.startsWith("error")){
+        String data = message.substring("match:error".length());
+        println("Erro, não foi possível vizualizar a leaderboard:", data);
+      }
+    }
+  }
+  
+  void updateGameState(String message) {
+    println("updateGameState called with message: " + message);
+
+    String[] parts = message.split("#");
+    if (parts.length < 2) {
+        println("Invalid game state message: " + message);
+        return;
+    }
+
+    // Parse player data
+    String[] p1Data = parts[0].split(",");
+    String[] p2Data = parts[1].split(",");
+
+    if (!playersInitialized) {
+        if (p1Data.length >= 6) {
+            player1.makePlayer(p1Data[0],
+            Float.parseFloat(p1Data[1]),
+            Float.parseFloat(p1Data[2]),
+            Float.parseFloat(p1Data[3]),
+            Integer.parseInt(p1Data[5]));
+            playersInitialized = true;
+        }
+        if (p2Data.length >= 6) {
+            opponent.makePlayer(p2Data[0],
+            Float.parseFloat(p2Data[1]),
+            Float.parseFloat(p2Data[2]),
+            Float.parseFloat(p2Data[3]),
+            Integer.parseInt(p2Data[5]));
+        }
+    } else {
+        // Update positions and scores
+        player1.updatePosition(
+            Float.parseFloat(p1Data[1]),
+            Float.parseFloat(p1Data[2]),
+            Float.parseFloat(p1Data[3]),
+            Integer.parseInt(p1Data[4])
+        );
+        opponent.updatePosition(
+            Float.parseFloat(p2Data[1]),
+            Float.parseFloat(p2Data[2]),
+            Float.parseFloat(p2Data[3]),
+            Integer.parseInt(p2Data[4])
+        );
+    }
+
+    println("Player 1: " + player1.username + " (" + player1.x + ", " + player1.y + ") Score: " + player1.score);
+    println("Opponent: " + opponent.username + " (" + opponent.x + ", " + opponent.y + ") Score: " + opponent.score);
+  }
+    
+   void resetGame() {
+    this.inGame = false;
+    projectiles.clear();
+    modifiers.clear();
+    playersInitialized = false; 
+  }
+  
+  Player getPlayer(String username){
+    if (player1.username.equals(username)) {
+      return player1;
+    }
+    else if (opponent.username.equals(username)){
+      return opponent;
+    }
+    return null;
+  }
+}
