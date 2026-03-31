@@ -1,0 +1,51 @@
+\begin{theindex}
+
+  \item \LaTeX  , \hyperpage{3, 4}
+    \subitem \texttt  {bibtex}, \hyperpage{4}
+    \subitem \texttt  {lhs2TeX}, \hyperpage{3--5}
+    \subitem \texttt  {makeindex}, \hyperpage{4}
+    \subitem \texttt  {pdflatex}, \hyperpage{3}
+
+  \indexspace
+
+  \item Combinador ``pointfree''
+    \subitem \emph  {hylo}
+      \subsubitem Listas, \hyperpage{2}
+    \subitem \emph  {split}, \hyperpage{5}
+  \item Comissão Nacional de Eleições, \hyperpage{1}
+    \subitem Método de Hondt, \hyperpage{1}
+  \item Cálculo de Programas, \hyperpage{1}, \hyperpage{3}
+    \subitem Material Pedagógico, \hyperpage{3}
+      \subsubitem LTree.hs, \hyperpage{2}
+      \subsubitem mSort ('merge sort'), \hyperpage{2}
+
+  \indexspace
+
+  \item Docker, \hyperpage{3}
+    \subitem container, \hyperpage{3, 4}
+
+  \indexspace
+
+  \item Função
+    \subitem $\pi _1$, \hyperpage{5}
+    \subitem $\pi _2$, \hyperpage{5, 6}
+    \subitem \emph  {for}, \hyperpage{2}
+    \subitem \emph  {map}, \hyperpage{5, 6}
+
+  \indexspace
+
+  \item Haskell, \hyperpage{1}, \hyperpage{3, 4}
+    \subitem interpretador
+      \subsubitem GHCi, \hyperpage{3, 4}
+    \subitem Literate Haskell, \hyperpage{3}
+
+  \indexspace
+
+  \item Números naturais ($\mathbb  {N}$), \hyperpage{5}
+
+  \indexspace
+
+  \item Programação
+    \subitem literária, \hyperpage{3, 4}
+
+\end{theindex}

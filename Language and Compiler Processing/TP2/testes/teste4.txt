@@ -1,0 +1,15 @@
+int x
+int y
+int z
+
+print("Escreve o valor de x")
+x = input
+print("Escreve o valor de y")
+y = input
+if (x == y):
+   z = x + y
+else:
+   z = y
+endelse
+endif
+print(z)

@@ -1,0 +1,53 @@
+idAtleta,idEvento,posicao,detalhes
+1,1,1,Tempo: 42:30.456 - Execução impecável
+2,1,2,Tempo: 43:12.789 - Consistência no ritmo
+6,1,3,Tempo: 44:05.123 - Grande esforço final
+7,1,4,Tempo: 45:32.890 - Boa resistência
+3,2,1,Equipe completou em 1h32m - Excelente sincronia
+4,2,2,Equipe completou em 1h34m - Pequenos ajustes necessários
+8,2,3,Equipe completou em 1h36m - Desempenho sólido
+5,3,1,Tempo: 1:02.543 - Perfeita coordenação de duplas
+9,3,2,"Tempo: 1:04.321 - Boa colaboração, mas algumas falhas"
+10,3,3,Tempo: 1:06.987 - Sincronia poderia melhorar
+11,4,1,Tempo: 3:56.432 - Dominância total da equipe
+12,4,2,Tempo: 4:01.987 - Estratégia bem executada
+13,4,3,Tempo: 4:08.654 - Resiliência incrível
+14,4,4,Tempo: 4:12.321 - Determinação sólida
+15,5,1,Tempo: 48:32.678 - Excelente controle técnico
+16,5,2,Tempo: 49:01.234 - Poucas falhas técnicas
+17,5,3,Tempo: 50:15.987 - Boa execução geral
+18,6,1,Pontuação: 98 - Estratégia impecável
+19,6,2,Pontuação: 95 - Ótima colaboração de equipe
+20,6,3,Pontuação: 92 - Bom trabalho em conjunto
+21,6,4,Pontuação: 89 - Esforço consistente
+22,7,1,Tempo: 1:33.456 - Velocidade impressionante
+23,7,2,Tempo: 1:35.789 - Boa técnica nas curvas
+24,7,3,Tempo: 1:37.654 - Ótima linha de descida
+25,7,4,Tempo: 1:39.432 - Resiliência admirável
+26,8,1,Tempo: 3:25.432 - Padrão excelente
+27,8,2,Tempo: 3:28.654 - Constância admirável
+28,8,3,Tempo: 3:31.789 - Forte desempenho técnico
+29,9,1,Tempo: 50:15.456 - Escalada impressionante
+30,9,2,Tempo: 51:12.654 - Boa transição nas subidas
+31,9,3,Tempo: 52:01.321 - Determinação sólida
+32,10,1,Pontuação: 96 - Execução de alto nível técnico
+33,10,2,Pontuação: 94 - Bom controle nas manobras
+34,10,3,Pontuação: 92 - Consistência impressionante
+35,11,1,Pontuação: 3x0 - Vitória dominante
+36,11,2,Pontuação: 2x1 - Desempenho decisivo
+37,11,3,Pontuação: 1x0 - Defesa sólida
+38,12,1,Tempo: 46:32.123 - Precisão técnica
+39,12,2,Tempo: 47:45.678 - Ótima estabilidade
+40,12,3,Tempo: 48:21.987 - Determinação
+41,13,1,Pontuação artística: 98.5 - Execução deslumbrante
+42,13,2,Pontuação artística: 96.0 - Técnica refinada
+43,13,3,Pontuação artística: 94.5 - Performance emocionante
+44,14,1,Tempo: 34.567 - Velocidade máxima alcançada
+45,14,2,Tempo: 35.432 - Ótima aceleração
+46,14,3,Tempo: 36.123 - Forte desempenho
+47,15,1,Pontuação: 97.0 - Saltos espetaculares
+48,15,2,Pontuação: 95.5 - Grande domínio técnico
+49,15,3,Pontuação: 94.0 - Saltos bem controlados
+50,16,1,Tempo: 1:32.654 - Execução impressionante
+1,16,2,Tempo: 1:33.789 - Linha consistente
+2,16,3,Tempo: 1:35.432 - Desempenho sólido

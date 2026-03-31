@@ -1,0 +1,656 @@
+\documentclass[11pt,a4paper]{report}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[portuges]{babel}
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage[pdftex]{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{magenta},
+    keywordstyle=\color{codegreen},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    numbers=left,
+    numbersep=2pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=true
+}
+
+\lstset{style=mystyle}
+
+\graphicspath{{../../imagens/TP2/}}
+
+\title{Trabalho Prático 2 \\
+    \large Processamento de Linguagens e Compiladores\\ [1ex]
+    \large Grupo 8}
+
+\author{
+    Cláudia Rego Faria \\ (A105531) 
+    \and Loren Narrane Leandro Oliveira da Silva \\ (A102514)
+    \and Patrícia Daniela Fernandes Bastos \\ (A102502)
+} %autores do documento
+
+\date{\today} %data
+
+\begin{document}
+
+    \begin{minipage}{0.9\linewidth}
+        \centering
+        \includegraphics[width=0.4\textwidth]{um.jpg}\par\vspace{1 cm}
+        \href{https://www.uminho.pt/PT}
+        {\scshape\LARGE Universidade do Minho} \par
+        \vspace{0.6cm}
+        \href{https://lcc.di.uminho.pt}
+        {\scshape\Large Licenciatura em Ciências da Computação} \par
+        \maketitle
+        
+    \end{minipage}
+
+    \tableofcontents
+
+    \pagebreak
+
+
+    \chapter{Introdução}
+    \paragraph{}
+    Este trabalho foi proposto no âmbito da disciplina de Processamento de Linguagens e Compiladores e consiste no desenvolvimento de uma linguagem de programação imperativa que visa a aplicação dos conhecimentos adquiridos na disciplina. A linguagem é acompanhada de um compilador que transforma programas desta linguagem em código Assembly da Máquina Virtual EWVM estudada nas aulas.
+    \paragraph{}
+    O seguinte relatório contém a explicação da gramática e da sintaxe e programas para teste da linguagem e da sua conversão para Assembly.
+    \paragraph{}
+    Devido ao amor partilhado pelo nosso grupo pela gastronomia portuguesa, a linguagem foi batizada de Rissol. O Rissol é simples, eficaz e delicioso. Esperamos que o leitor goste tanto do Rissol como o nosso grupo gostou de o desenvolver.
+
+
+    \chapter{Enunciado}
+    \paragraph{}
+    Pretende-se que comece por definir uma linguagem de programação imperativa simples, a seu gosto.
+    Apenas deve ter em consideração que essa linguagem terá de permitir:
+    \begin{itemize}
+        \item \textit{declarar} variáveis atómicas do tipo \textit{inteiro}, com os quais se podem realizar as habituais operações aritméticas, relacionais e lógicas;
+        \item \textit{efetuar} instruções algorítmicas básicas como a \textit{atribuição do valor de expressões numéricas a variáveis};
+        \item \textit{ler} do \textit{standard input} e \textit{escrever} no \textit{standard output};
+        \item \textit{efetuar} instruções de \textit{seleção} para controlo do fluxo de execução;
+        \item \textit{efetuar} instruções de repetição (\textit{cíclicas}) para controlo do fluxo de execução, permitindo o seu aninhamento.\\
+    \underline{Note} que deve implementar pelo menos o ciclo \textbf{while-do}, \textbf{repeat-until} ou \textbf{for-do}.
+    \end{itemize}
+
+    Adicionalmente deve ainda suportar, à sua escolha, uma das duas funcionalidades seguintes:
+    \begin{itemize}
+        \item \textit{declarar e manusear} variáveis estruturadas do tipo \textit{array (a 1 ou 2 dimensões) de inteiros}, em relação aos quais é apenas permitida a operação de indexação (índice inteiro);
+        \item \textit{definir e invocar subprogramas} sem parâmetros mas que possam retornar um resultado do tipo inteiro.
+    \end{itemize}
+
+    Como é da praxe neste tipo de linguagens, as variáveis deverão ser declaradas no início do programa e não pode haver re-declarações, nem utilizações sem declaração prévia. Se nada for explicitado, o valor da variável após a declaração é 0 (zero).
+    O compilador deve gerar \textbf{pseudo-código}, Assembly da Máquina Virtual VM.
+
+
+    \chapter{Concepção da Solução}
+    \paragraph{}
+    Para criar a linguagem, começámos por escrever frases de exemplo que fossem reconhecidas por ela. Depois, escrevemos a gramática, formalizando assim a linguagem. Por fim, implementámos, em Python, o analisador léxico e o parser. As regras de tradução para Assembly encontram-se no parser.
+    \paragraph{}
+    Acordámos que a linguagem incluiria a definição e implementação de subprogramas, sem parâmetros mas que retornam um inteiro, bem como a estrutura de controlo while-do.
+
+    \section{Sintaxe da Linguagem PLC}
+
+    \subsection{Declaração e atribuição de variáveis}
+    \begin{lstlisting}[language=Python]
+    
+        int x
+        int y
+        int z
+
+        x = 1
+        y = 2
+        z = 3
+    \end{lstlisting}
+
+    \subsection{Operadores de comparação}
+    \begin{lstlisting}[language=Python]
+    
+        x > y
+        x < y
+        x >= y
+        x <= y
+        x != y
+        x == y
+    \end{lstlisting}
+
+    \subsection{Operações numéricas}
+    \begin{lstlisting}[language=Python]
+    
+        x + y
+        x - y
+        x / y
+        x * y
+        x % y
+    \end{lstlisting}
+
+    \subsection{Operadores lógicos}
+    \begin{lstlisting}[language=Python]
+    
+        x and y
+        x or y
+        ! x
+    \end{lstlisting}
+
+    \subsection{Instruções de seleção}
+    \begin{lstlisting}[language=Python]
+    
+        if CONDICAO:
+            ...
+        else:
+            ...
+        endelse
+        endif
+
+        if CONDICAO:
+            ...
+        endif
+    \end{lstlisting}
+
+    \subsection{Ciclo while}
+    \begin{lstlisting}[language=Python]
+    
+        while CONDICAO:
+            ...
+        endwhile
+    \end{lstlisting}
+
+    \subsection{Definição e invocação de subprogramas}
+    \begin{lstlisting}[language=Python]
+    
+        define funcao():
+            ...
+            return VAR
+        enddefine
+
+        funcao()
+
+        x = funcao()
+        y = funcao() + x
+    \end{lstlisting}
+
+    \subsection{Input/Output}
+    \begin{lstlisting}[language=Python]
+    
+        print("Escreve o valor de x")
+        x = input
+        print(x)
+    \end{lstlisting}
+
+    \section{Símbolos}
+    Os simbolos da linguagem são os seguintes:
+    \begin{verbatim}
+        'AND',
+        'OR',
+        'LPAREN',
+        'RPAREN',
+        'DOISPT',
+        'DIV',
+        'MOD',
+        'IGUAL',
+        'MAIS',
+        'MENOS',
+        'VEZES',
+        'IF',
+        'ENDIF',
+        'ELSE',
+        'ENDELSE',
+        'MAIOR',
+        'MENOR',
+        'DEFINE',
+        'ENDDEFINE',
+        'WHILE',
+        'ENDWHILE',
+        'RETURN',
+        'INT',
+        'NAO',
+        'INPUT',
+        'PRINT',
+        'STRING',
+        'NUM',
+        'PALAVRA'
+    \end{verbatim}
+
+    \section{Desenho da GIC}
+    A nossa linguagem é gerada pela seguinte grámatica independente de contexto:
+    \begin{verbatim}
+    
+        Programa : Declaracoes Funcoes 
+        
+        Declaracoes : Declaracao
+                    | Declaracoes Declaracao
+        
+        Funcoes : Funcao
+                | Funcoes Funcao
+        
+        Funcao : Selecao
+               | Ciclo 
+               | Subprograma
+               | Atribuicao
+               | Print
+               | ChamadaFuncao
+        
+        Declaracao : INT Var 
+        
+        Atribuicao : Var IGUAL Expressao
+                   | Var IGUAL INPUT
+        
+        Expressao : Operacao
+                  | Num
+                  | Var
+                  | ChamadaFuncao
+        
+        Operacao : Expressao Operador Expressao
+        
+        Operador : VEZES
+                 | MAIS
+                 | MENOS
+                 | DIV
+                 | MOD
+        
+        Comparador : MAIOR
+                   | MENOR
+                   | MAIOR IGUAL
+                   | MENOR IGUAL
+                   | NAO IGUAL
+                   | IGUAL IGUAL
+        
+        Selecao : IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+                | IF Condicao DOISPT Corpo ENDIF
+                
+        
+        Ciclo : WHILE Condicao DOISPT Corpo ENDWHILE
+        
+        Condicao : LPAREN Expressao Comparador Expressao RPAREN
+                 | LPAREN Condicao AND Condicao RPAREN
+                 | LPAREN Condicao OR Condicao RPAREN
+                 | LPAREN NAO Condicao RPAREN
+                 | LPAREN Condicao RPAREN
+        
+        Subprograma : DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE
+        
+        Corpo : C Corpo
+              | C
+        
+        C : Selecao
+          | Atribuicao
+          | Ciclo
+          | ChamadaFuncao
+          | Print
+        
+        F : PALAVRA LPAREN RPAREN
+        
+        ChamadaFuncao : F
+        
+        VAR : PALAVRA
+        
+        Print : PRINT LPAREN STRING RPAREN
+              | PRINT LPAREN VAR RPAREN
+        
+    \end{verbatim}
+   
+    \chapter{Exemplos de funcionamento}
+    \subsection{Exemplo 1}
+    \begin{lstlisting}[language=Python]
+    
+        int x
+        int y
+        
+        x = 10
+        y = 20
+        
+        define fun():
+           x = x - 1
+           return x
+        enddefine
+        
+        if (x < y):
+           fun()
+        endif
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    PUSHI 0
+    START
+    PUSHI 10
+    STOREG 0
+    PUSHI 20
+    STOREG 1
+    PUSHG 0
+    PUSHG 1
+    INF
+    JZ label0
+    PUSHA fun
+    CALL
+    label0: NOP
+    STOP
+    fun:
+    PUSHG 0
+    PUSHI 1
+    SUB
+    STOREG 0
+    PUSHG 0
+    RETURN
+    \end{lstlisting}
+
+    \subsection{Exemplo 2}
+    \begin{lstlisting}[language=Python]
+    
+    int x
+    int y
+    
+    x = 10
+    y = 20
+    
+    while (x < y):
+        x = x + 1
+    endwhile
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    PUSHI 0
+    START
+    PUSHI 10
+    STOREG 0
+    PUSHI 20
+    STOREG 1
+    label0c: NOP
+    PUSHG 0
+    PUSHG 1
+    INF
+    JZ label0f
+    PUSHG 0
+    PUSHI 1
+    ADD
+    STOREG 0
+    JUMP label0c
+    label0f: NOP
+    STOP
+    \end{lstlisting}
+    
+    \subsection{Exemplo 3}
+    \begin{lstlisting}[language=Python]
+    
+    int x
+    
+    define paridade():
+      if (x % 2 == 0):
+        print("par")
+      else:
+        print("impar")
+      endelse
+      endif
+      return x
+    enddefine
+    
+    x = input
+    paridade()
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    START
+    READ
+    ATOI
+    STOREG 0
+    PUSHA paridade
+    CALL
+    STOP
+    paridade:
+    PUSHG 0
+    PUSHI 2
+    MOD
+    PUSHI 0
+    EQUAL
+    JZ label0
+    PUSHS "par"
+    WRITES
+    WRITELN
+    JUMP label0f
+    label0: NOP
+    PUSHS "impar"
+    WRITES
+    WRITELN
+    label0f: NOP
+    PUSHG 0
+    RETURN
+    \end{lstlisting}
+    
+    \subsection{Exemplo 4}
+    \begin{lstlisting}[language=Python]
+    
+    int x
+    int y
+    int z
+    
+    print("Escreve o valor de x")
+    x = input
+    print("Escreve o valor de y")
+    y = input
+    if (x == y):
+       z = x + y
+    else:
+       z = y
+    endelse
+    endif
+    print(z)
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    PUSHI 0
+    PUSHI 0
+    START
+    PUSHS "Escreve o valor de x"
+    WRITES
+    WRITELN
+    READ
+    ATOI
+    STOREG 0
+    PUSHS "Escreve o valor de y"
+    WRITES
+    WRITELN
+    READ
+    ATOI
+    STOREG 1
+    PUSHG 0
+    PUSHG 1
+    EQUAL
+    JZ label0
+    PUSHG 0
+    PUSHG 1
+    ADD
+    STOREG 2
+    JUMP label0f
+    label0: NOP
+    PUSHG 1
+    STOREG 2
+    label0f: NOP
+    PUSHG 2
+    WRITEI
+    WRITELN
+    STOP
+    \end{lstlisting}
+    
+    \subsection{Exemplo 5}
+    \begin{lstlisting}[language=Python]
+    
+    int idade 
+    
+    print("Qual a sua idade?")
+    idade = input
+    if (idade >= 18):
+       print("Pode tirar a carta!")
+    else:
+       print("Espere mais um pouco.")
+    endelse
+    endif
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    START
+    PUSHS "Qual a sua idade?"
+    WRITES
+    WRITELN
+    READ
+    ATOI
+    STOREG 0
+    PUSHG 0
+    PUSHI 18
+    SUPEQ
+    JZ label0
+    PUSHS "Pode tirar a carta!"
+    WRITES
+    WRITELN
+    JUMP label0f
+    label0: NOP
+    PUSHS "Espere mais um pouco."
+    WRITES
+    WRITELN
+    label0f: NOP
+    STOP
+    \end{lstlisting}
+    
+    \subsection{Exemplo 6}
+    \begin{lstlisting}[language=Python]
+    
+    int a 
+    int b
+    int temp
+    int result
+    
+    define mdc():
+      a = input
+      b = input
+    
+      while (b != 0) :
+        temp = b
+        b = a % b
+        a = temp
+      endwhile
+    
+      return a
+    enddefine
+    
+    result = mdc()
+    print("MDC: ")
+    print(result)
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    PUSHI 0
+    PUSHI 0
+    PUSHI 0
+    START
+    PUSHA mdc
+    CALL
+    STOREG 3
+    PUSHS "MDC: "
+    WRITES
+    WRITELN
+    PUSHG 3
+    WRITEI
+    WRITELN
+    STOP
+    mdc:
+    READ
+    ATOI
+    STOREG 0
+    READ
+    ATOI
+    STOREG 1
+    label0c: NOP
+    PUSHG 1
+    PUSHI 0
+    EQUAL
+    NOT
+    JZ label0f
+    PUSHG 1
+    STOREG 2
+    PUSHG 0
+    PUSHG 1
+    MOD
+    STOREG 1
+    PUSHG 2
+    STOREG 0
+    JUMP label0c
+    label0f: NOP
+    PUSHG 0
+    RETURN
+    \end{lstlisting}
+    \subsection{Exemplo 7}
+    \begin{lstlisting}[language=Python]
+    
+    int x
+    int y
+    
+    y = x + 1
+    
+    print(y)
+    \end{lstlisting}
+    \paragraph{}
+    \textbf{Código Assembly gerado:}
+    \begin{lstlisting}
+    
+    PUSHI 0
+    PUSHI 0
+    START
+    PUSHG 0
+    PUSHI 1
+    ADD
+    STOREG 1
+    PUSHG 1
+    WRITEI
+    WRITELN
+    STOP
+    \end{lstlisting}
+
+
+
+\chapter{Conclusão}
+\paragraph{}
+Este projeto permitiu-nos aplicar de forma prática os conhecimentos adquiridos nas aulas de Processamento de Linguagens e Compiladores. O desenvolvimento de um compilador que gera pseudo-código Assembly para uma máquina virtual proporcionou-nos a oportunidade de relembrar o funcionamento das linguagens de máquina, especialmente na implementação de jumps e operações na stack.
+\paragraph{}
+Ao longo do trabalho, aprofundamos o nosso entendimento sobre os módulos Lex e Yacc, enfrentando desafios ao traduzir uma linguagem de alto nível para uma de baixo nível.
+\paragraph{}
+Cumprimos todos os objetivos propostos para o trabalho prático e, como implementação adicional, optamos pela definição e invocação de subprogramas. Consideramos que o resultado final reflete um bom domínio das ferramentas apresentadas e dos conceitos ensinados, servindo como uma base sólida para desafios futuros.
+
+
+\end{document}

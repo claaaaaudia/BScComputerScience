@@ -1,0 +1,10 @@
+int idade 
+
+print("Qual a sua idade?")
+idade = input
+if (idade >= 18):
+   print("Pode tirar a carta!")
+else:
+   print("Espere mais um pouco.")
+endelse
+endif

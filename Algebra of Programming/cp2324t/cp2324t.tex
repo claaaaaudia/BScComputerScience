@@ -1,0 +1,1176 @@
+\documentclass[11pt, a4paper, fleqn]{article}
+\usepackage{cp2324t}
+\makeindex
+
+%================= lhs2tex=====================================================%
+%% ODER: format ==         = "\mathrel{==}"
+%% ODER: format /=         = "\neq "
+%
+%
+\makeatletter
+\@ifundefined{lhs2tex.lhs2tex.sty.read}%
+  {\@namedef{lhs2tex.lhs2tex.sty.read}{}%
+   \newcommand\SkipToFmtEnd{}%
+   \newcommand\EndFmtInput{}%
+   \long\def\SkipToFmtEnd#1\EndFmtInput{}%
+  }\SkipToFmtEnd
+
+\newcommand\ReadOnlyOnce[1]{\@ifundefined{#1}{\@namedef{#1}{}}\SkipToFmtEnd}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\DeclareFontFamily{OT1}{cmtex}{}
+\DeclareFontShape{OT1}{cmtex}{m}{n}
+  {<5><6><7><8>cmtex8
+   <9>cmtex9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmtex10}{}
+\DeclareFontShape{OT1}{cmtex}{m}{it}
+  {<-> ssub * cmtt/m/it}{}
+\newcommand{\texfamily}{\fontfamily{cmtex}\selectfont}
+\DeclareFontShape{OT1}{cmtt}{bx}{n}
+  {<5><6><7><8>cmtt8
+   <9>cmbtt9
+   <10><10.95><12><14.4><17.28><20.74><24.88>cmbtt10}{}
+\DeclareFontShape{OT1}{cmtex}{bx}{n}
+  {<-> ssub * cmtt/bx/n}{}
+\newcommand{\tex}[1]{\text{\texfamily#1}}	% NEU
+
+\newcommand{\Sp}{\hskip.33334em\relax}
+
+
+\newcommand{\Conid}[1]{\mathit{#1}}
+\newcommand{\Varid}[1]{\mathit{#1}}
+\newcommand{\anonymous}{\kern0.06em \vbox{\hrule\@width.5em}}
+\newcommand{\plus}{\mathbin{+\!\!\!+}}
+\newcommand{\bind}{\mathbin{>\!\!\!>\mkern-6.7mu=}}
+\newcommand{\rbind}{\mathbin{=\mkern-6.7mu<\!\!\!<}}% suggested by Neil Mitchell
+\newcommand{\sequ}{\mathbin{>\!\!\!>}}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\usepackage{polytable}
+
+%mathindent has to be defined
+\@ifundefined{mathindent}%
+  {\newdimen\mathindent\mathindent\leftmargini}%
+  {}%
+
+\def\resethooks{%
+  \global\let\SaveRestoreHook\empty
+  \global\let\ColumnHook\empty}
+\newcommand*{\savecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\savecolumns[#1]}}
+\newcommand*{\restorecolumns}[1][default]%
+  {\g@addto@macro\SaveRestoreHook{\restorecolumns[#1]}}
+\newcommand*{\aligncolumn}[2]%
+  {\g@addto@macro\ColumnHook{\column{#1}{#2}}}
+
+\resethooks
+
+\newcommand{\onelinecommentchars}{\quad-{}- }
+\newcommand{\commentbeginchars}{\enskip\{-}
+\newcommand{\commentendchars}{-\}\enskip}
+
+\newcommand{\visiblecomments}{%
+  \let\onelinecomment=\onelinecommentchars
+  \let\commentbegin=\commentbeginchars
+  \let\commentend=\commentendchars}
+
+\newcommand{\invisiblecomments}{%
+  \let\onelinecomment=\empty
+  \let\commentbegin=\empty
+  \let\commentend=\empty}
+
+\visiblecomments
+
+\newlength{\blanklineskip}
+\setlength{\blanklineskip}{0.66084ex}
+
+\newcommand{\hsindent}[1]{\quad}% default is fixed indentation
+\let\hspre\empty
+\let\hspost\empty
+\newcommand{\NB}{\textbf{NB}}
+\newcommand{\Todo}[1]{$\langle$\textbf{To do:}~#1$\rangle$}
+
+\EndFmtInput
+\makeatother
+%
+%
+%
+%
+%
+%
+% This package provides two environments suitable to take the place
+% of hscode, called "plainhscode" and "arrayhscode". 
+%
+% The plain environment surrounds each code block by vertical space,
+% and it uses \abovedisplayskip and \belowdisplayskip to get spacing
+% similar to formulas. Note that if these dimensions are changed,
+% the spacing around displayed math formulas changes as well.
+% All code is indented using \leftskip.
+%
+% Changed 19.08.2004 to reflect changes in colorcode. Should work with
+% CodeGroup.sty.
+%
+\ReadOnlyOnce{polycode.fmt}%
+\makeatletter
+
+\newcommand{\hsnewpar}[1]%
+  {{\parskip=0pt\parindent=0pt\par\vskip #1\noindent}}
+
+% can be used, for instance, to redefine the code size, by setting the
+% command to \small or something alike
+\newcommand{\hscodestyle}{}
+
+% The command \sethscode can be used to switch the code formatting
+% behaviour by mapping the hscode environment in the subst directive
+% to a new LaTeX environment.
+
+\newcommand{\sethscode}[1]%
+  {\expandafter\let\expandafter\hscode\csname #1\endcsname
+   \expandafter\let\expandafter\endhscode\csname end#1\endcsname}
+
+% "compatibility" mode restores the non-polycode.fmt layout.
+
+\newenvironment{compathscode}%
+  {\par\noindent
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed\)%
+   \par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\compaths}{\sethscode{compathscode}}
+
+% "plain" mode is the proposed default.
+% It should now work with \centering.
+% This required some changes. The old version
+% is still available for reference as oldplainhscode.
+
+\newenvironment{plainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\hspre\(\let\hspost\)%
+   \pboxed}%
+  {\endpboxed%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newenvironment{oldplainhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+% Here, we make plainhscode the default environment.
+
+\newcommand{\plainhs}{\sethscode{plainhscode}}
+\newcommand{\oldplainhs}{\sethscode{oldplainhscode}}
+\plainhs
+
+% The arrayhscode is like plain, but makes use of polytable's
+% parray environment which disallows page breaks in code blocks.
+
+\newenvironment{arrayhscode}%
+  {\hsnewpar\abovedisplayskip
+   \advance\leftskip\mathindent
+   \hscodestyle
+   \let\\=\@normalcr
+   \(\parray}%
+  {\endparray\)%
+   \hsnewpar\belowdisplayskip
+   \ignorespacesafterend}
+
+\newcommand{\arrayhs}{\sethscode{arrayhscode}}
+
+% The mathhscode environment also makes use of polytable's parray 
+% environment. It is supposed to be used only inside math mode 
+% (I used it to typeset the type rules in my thesis).
+
+\newenvironment{mathhscode}%
+  {\parray}{\endparray}
+
+\newcommand{\mathhs}{\sethscode{mathhscode}}
+
+% texths is similar to mathhs, but works in text mode.
+
+\newenvironment{texthscode}%
+  {\(\parray}{\endparray\)}
+
+\newcommand{\texths}{\sethscode{texthscode}}
+
+% The framed environment places code in a framed box.
+
+\def\codeframewidth{\arrayrulewidth}
+\RequirePackage{calc}
+
+\newenvironment{framedhscode}%
+  {\parskip=\abovedisplayskip\par\noindent
+   \hscodestyle
+   \arrayrulewidth=\codeframewidth
+   \tabular{@{}|p{\linewidth-2\arraycolsep-2\arrayrulewidth-2pt}|@{}}%
+   \hline\framedhslinecorrect\\{-1.5ex}%
+   \let\endoflinesave=\\
+   \let\\=\@normalcr
+   \(\pboxed}%
+  {\endpboxed\)%
+   \framedhslinecorrect\endoflinesave{.5ex}\hline
+   \endtabular
+   \parskip=\belowdisplayskip\par\noindent
+   \ignorespacesafterend}
+
+\newcommand{\framedhslinecorrect}[2]%
+  {#1[#2]}
+
+\newcommand{\framedhs}{\sethscode{framedhscode}}
+
+% The inlinehscode environment is an experimental environment
+% that can be used to typeset displayed code inline.
+
+\newenvironment{inlinehscode}%
+  {\(\def\column##1##2{}%
+   \let\>\undefined\let\<\undefined\let\\\undefined
+   \newcommand\>[1][]{}\newcommand\<[1][]{}\newcommand\\[1][]{}%
+   \def\fromto##1##2##3{##3}%
+   \def\nextline{}}{\) }%
+
+\newcommand{\inlinehs}{\sethscode{inlinehscode}}
+
+% The joincode environment is a separate environment that
+% can be used to surround and thereby connect multiple code
+% blocks.
+
+\newenvironment{joincode}%
+  {\let\orighscode=\hscode
+   \let\origendhscode=\endhscode
+   \def\endhscode{\def\hscode{\endgroup\def\@currenvir{hscode}\\}\begingroup}
+   %\let\SaveRestoreHook=\empty
+   %\let\ColumnHook=\empty
+   %\let\resethooks=\empty
+   \orighscode\def\hscode{\endgroup\def\@currenvir{hscode}}}%
+  {\origendhscode
+   \global\let\hscode=\orighscode
+   \global\let\endhscode=\origendhscode}%
+
+\makeatother
+\EndFmtInput
+%
+%%format (bin (n) (k)) = "\Big(\vcenter{\xymatrix@R=1pt{" n "\\" k "}}\Big)"
+
+
+%------------------------------------------------------------------------------%
+
+
+%====== DEFINIR GRUPO E ELEMENTOS =============================================%
+
+\group{G22}
+\studentA{105531}{Cláudia Rego Faria }
+\studentB{102502}{Patrícia Daniela Fernandes Bastos }
+\studentC{101987}{Renato Pereira Garcia }
+
+%==============================================================================%
+
+\begin{document}
+\sffamily
+\setlength{\parindent}{0em}
+\emergencystretch 3em
+\renewcommand{\baselinestretch}{1.25} 
+\input{Cover}
+\pagestyle{pagestyle}
+
+\newgeometry{left=25mm,right=20mm,top=25mm,bottom=25mm}
+\setlength{\parindent}{1em}
+
+\section*{Preâmbulo}
+
+\CP\ tem como objectivo principal ensinar a progra\-mação de computadores
+como uma disciplina científica. Para isso parte-se de um repertório de \emph{combinadores}
+que formam uma álgebra da programação % (conjunto de leis universais e seus corolários)
+e usam-se esses combinadores para construir programas \emph{composicionalmente},
+isto é, agregando programas já existentes.
+
+Na sequência pedagógica dos planos de estudo dos cursos que têm
+esta disciplina, opta-se pela aplicação deste método à programação
+em \Haskell, sem prejuízo da sua aplicação a outras linguagens
+funcionais. Assim, o presente trabalho prático coloca os
+alunos perante problemas concretos que deverão ser implementados em
+\Haskell. Há ainda um outro objectivo: o de ensinar a documentar
+programas, a validá-los e a produzir textos técnico-científicos de
+qualidade.
+
+Antes de abordarem os problemas propostos no trabalho, os grupos devem ler
+com atenção o anexo \ref{sec:documentacao} onde encontrarão as instruções
+relativas ao sofware a instalar, etc.
+
+\begin{alert}
+Valoriza-se a escrita de \emph{pouco} código, que corresponda a soluções
+simples e elegantes mediante a utilização dos combinadores de ordem superior
+estudados na disciplina.
+
+Recomenda-se ainda que o código venha acompanhado de uma descrição de como
+funciona e foi concebido, apoiado em diagramas explicativos. Para instruções
+sobre como produzir esses diagramas e exprimir raciocínios de cálculo, ver
+o anexo \ref{sec:diagramas}.
+\end{alert}
+
+
+\Problema
+
+No passado dia 10 de Março o país foi a eleições para a Assembleia da República.
+A lei eleitoral portuguesa segue, como as de muitos outros países, o chamado
+\hondt{Método de Hondt} para selecionar os candidatos dos vários partidos, conforme
+os votos que receberam. E, tal como em anos anteriores, há sempre 
+\href{https://www.jn.pt/6761243323/mais-de-673-mil-votos-desperdicados-nas-legislativas}{notícias}
+a referir a quantidade de votos desperdiçados por este método.
+Como e porque é que isso acontece?
+
+Pretende-se nesta questão construir em Hakell um programa que implemente
+o método de Hondt. A \cne{Comissão Nacional de Eleições} descreve esse método
+\hondt{nesta página}, que deverá
+ser estudada para resolver esta questão. O quadro que aí aparece,
+
+\qhondt
+
+\noindent mostra o exemplo de um círculo eleitoral que tem direito a eleger 7 deputados e
+onde concorrem às eleições quatro partidos \ensuremath{\Conid{A}}, \ensuremath{\Conid{B}}, \ensuremath{\Conid{C}} e \ensuremath{\Conid{D}}, cf:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{data}\;\Conid{Party}\mathrel{=}\Conid{A}\mid \Conid{B}\mid \Conid{C}\mid \Conid{D}\;\mathbf{deriving}\;(\Conid{Eq},\Conid{Ord},\Conid{Show}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+A votação nesse círculo foi
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}[\mskip1.5mu (\Conid{A},\mathrm{12000}),(\Conid{B},\mathrm{7500}),(\Conid{C},\mathrm{4500}),(\Conid{D},\mathrm{3000})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+sendo o resultado eleitoral
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{result}\mathrel{=}[\mskip1.5mu (\Conid{A},\mathrm{3}),(\Conid{B},\mathrm{2}),(\Conid{C},\mathrm{1}),(\Conid{D},\mathrm{1})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+apurado correndo
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{result}\mathrel{=}\Varid{final}\;\Varid{history}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que corresponde à última etapa da iteração:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{12}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{history}\mathrel{=}{}\<[12]%
+\>[12]{}[\mskip1.5mu \for{\Varid{step}}\ {\Varid{db}}\;\Varid{i}\mid \Varid{i}\leftarrow [\mskip1.5mu \mathrm{0}\mathinner{\ldotp\ldotp}\mathrm{7}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Verifica-se que, de um total de \ensuremath{\mathrm{27000}} votos, foram desperdiçados:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{11}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{wasted}\mathrel{=}{}\<[11]%
+\>[11]{}\mathrm{9250}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Completem no anexo \ref{sec:resolucao} as funções que se encontram aí
+indefinidas\footnote{Cf.\ \ensuremath{\bot } no código.}, podendo adicionar funções
+au\-xiliares que sejam convenientes. No anexo \ref{sec:codigo} é dado
+algum código preliminar.
+
+\Problema
+
+A biblioteca \LTree\ inclui o algoritmo ``mergesort'' (\msort{\ensuremath{\Varid{mSort}}}), que é um hilomorfismo
+baseado função
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{merge}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow ([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu])\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+que junta duas listas previamente ordenadas numa única lista ordenada.
+
+Nesta questão pretendemos generalizar \ensuremath{\Varid{merge}} a \ensuremath{\Varid{k}}-listas (ordenadas),
+para qualquer \ensuremath{\Varid{k}} finito:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mergek}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Esta função deverá ser codificada como um hilomorfismo, a saber:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mergek}\mathrel{=}\hyloList{\Varid{f}}{\Varid{g}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+\begin{enumerate}
+\item	Programe os genes \ensuremath{\Varid{f}} e \ensuremath{\Varid{g}} do hilomorfismo \ensuremath{\Varid{mergek}}.
+\item	Estenda \ensuremath{\Varid{mSort}} a
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mSortk}\mathbin{::}\Conid{Ord}\;\Varid{a}\Rightarrow \Conid{Int}\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+por forma a este hilomorfismo utilizar \ensuremath{\Varid{mergek}} em lugar de \ensuremath{\Varid{merge}} na estapa
+de ``conquista". O que se espera de \ensuremath{\Varid{mSortk}\;\Varid{k}} é que faça a partição da lista
+de entrada em \ensuremath{\Varid{k}} sublistas, sempre que isso for possível.
+(Que vantagens vê nesta nova versão?)
+\end{enumerate}
+
+\Problema
+
+Considere-se a fórmula que dá o \ensuremath{\Varid{n}}-ésimo \catalan{número de Catalan}:
+\begin{eqnarray}
+	C_n = \frac{(2n)!}{(n+1)! (n!) }
+	\label{eq:cat}
+\end{eqnarray}
+No anexo \ref{sec:codigo} dá-se a função \ensuremath{\Varid{catdef}} que implementa a definição (\ref{eq:cat}) em Haskell.
+É fácil de verificar que, à medida que \ensuremath{\Varid{n}} cresce, o tempo que \ensuremath{\Varid{catdef}\;\Varid{n}} demora a executar degrada-se.
+ 
+Pretende-se uma implementação mais eficiente de $C_n$ que, derivada por recursividade mútua,
+não calcule factoriais nenhuns:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{cat}\mathrel{=}\cdots \comp \for{\Varid{loop}}\ {\Varid{init}}\;\mathbf{where}\;\cdots {}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+No anexo \ref{sec:codigo} é dado um oráculo que pode ajudar a testar \ensuremath{\Varid{cat}}.
+Deverá ainda ser comparada a eficiência da solução calculada \ensuremath{\Varid{cat}} com a de \ensuremath{\Varid{catdef}}.
+
+\begin{alert}
+\textbf{Sugestão}: Começar por estudar a regra prática que se dá no anexo
+\ref{sec:mr} para problemas deste género.
+\end{alert}
+
+\Problema
+
+Esta questão aborda um problema que é conhecido pela designação \emph{Largest
+Rectangle in Histogram}. Precebe-se facilmente do que se trata olhando para a parte
+esquerda da figura abaixo, que mostra o histograma correspondente à sequência numérica:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{h}\mathrel{=}[\mskip1.5mu \mathrm{2},\mathrm{1},\mathrm{5},\mathrm{6},\mathrm{2},\mathrm{3}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\histograma
+
+À direita da mesma figura identifica-se o rectângulo de maior área que é possível inscrever no referido histograma,
+com área \ensuremath{\mathrm{10}\mathrel{=}\mathrm{2}\mathbin{*}\mathrm{5}}.
+
+Pretende-se a definição de uma função em Haskell
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{lrh}\mathbin{::}[\mskip1.5mu \Conid{Int}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+tal que \ensuremath{\Varid{lrh}\;\Varid{x}} seja a maior área de rectângulos que seja possível inscrever em \ensuremath{\Varid{x}}.
+
+Pretende-se uma solução para o problema que seja simples e estruturada num hilomorfismo baseado num tipo indutivo estudado na disciplina ou definido \emph{on purpose}.
+
+\newpage
+\part*{Anexos}
+
+\appendix
+
+\section{Natureza do trabalho a realizar}
+\label{sec:documentacao}
+Este trabalho teórico-prático deve ser realizado por grupos de 3 alunos.
+Os detalhes da avaliação (datas para submissão do relatório e sua defesa
+oral) são os que forem publicados na \cp{página da disciplina} na \emph{internet}.
+
+Recomenda-se uma abordagem participativa dos membros do grupo em \textbf{todos}
+os exercícios do trabalho, para assim poderem responder a qualquer questão
+colocada na \emph{defesa oral} do relatório.
+
+Para cumprir de forma integrada os objectivos do trabalho vamos recorrer
+a uma técnica de programa\-ção dita ``\litp{literária}'' \cite{Kn92}, cujo
+princípio base é o seguinte:
+%
+\begin{quote}\em
+	Um programa e a sua documentação devem coincidir.
+\end{quote}
+%
+Por outras palavras, o \textbf{código fonte} e a \textbf{documentação} de um
+programa deverão estar no mesmo ficheiro.
+
+O ficheiro \texttt{cp2324t.pdf} que está a ler é já um exemplo de
+\litp{programação literária}: foi gerado a partir do texto fonte
+\texttt{cp2324t.lhs}\footnote{O sufixo `lhs' quer dizer
+\emph{\lhaskell{literate Haskell}}.} que encontrará no \MaterialPedagogico\
+desta disciplina des\-com\-pactando o ficheiro \texttt{cp2324t.zip}.
+
+Como se mostra no esquema abaixo, de um único ficheiro (\ensuremath{\Varid{lhs}})
+gera-se um PDF ou faz-se a interpretação do código \Haskell\ que ele inclui:
+
+	\esquema
+
+Vê-se assim que, para além do \GHCi, serão necessários os executáveis \PdfLatex\ e
+\LhsToTeX. Para facilitar a instalação e evitar problemas de versões e
+conflitos com sistemas operativos, é recomendado o uso do \Docker\ tal como
+a seguir se descreve.
+
+\section{Docker} \label{sec:docker}
+
+Recomenda-se o uso do \container\ cuja imagem é gerada pelo \Docker\ a partir do ficheiro
+\texttt{Dockerfile} que se encontra na diretoria que resulta de descompactar
+\texttt{cp2324t.zip}. Este \container\ deverá ser usado na execução
+do \GHCi\ e dos comandos relativos ao \Latex. (Ver também a \texttt{Makefile}
+que é disponibilizada.)
+
+Após \href{https://docs.docker.com/engine/install/}{instalar o Docker} e
+descarregar o referido zip com o código fonte do trabalho,
+basta executar os seguintes comandos:
+\begin{Verbatim}[fontsize=\small]
+    $ docker build -t cp2324t .
+    $ docker run -v ${PWD}:/cp2324t -it cp2324t
+\end{Verbatim}
+\textbf{NB}: O objetivo é que o container\ seja usado \emph{apenas} 
+para executar o \GHCi\ e os comandos relativos ao \Latex.
+Deste modo, é criado um \textit{volume} (cf.\ a opção \texttt{-v \$\{PWD\}:/cp2324t}) 
+que permite que a diretoria em que se encontra na sua máquina local 
+e a diretoria \texttt{/cp2324t} no \container\ sejam partilhadas.
+
+O grupo deverá visualizar/editar os ficheiros numa máquina local e compilá-los no \container, executando:
+\begin{Verbatim}[fontsize=\small]
+    $ lhs2TeX cp2324t.lhs > cp2324t.tex
+    $ pdflatex cp2324t
+\end{Verbatim}
+\LhsToTeX\ é o pre-processador que faz ``pretty printing'' de código Haskell
+em \Latex\ e que faz parte já do \container. Alternativamente, basta executar
+\begin{Verbatim}[fontsize=\small]
+    $ make
+\end{Verbatim}
+para obter o mesmo efeito que acima.
+
+Por outro lado, o mesmo ficheiro \texttt{cp2324t.lhs} é executável e contém
+o ``kit'' básico, escrito em \Haskell, para realizar o trabalho. Basta executar
+\begin{Verbatim}[fontsize=\small]
+    $ ghci cp2324t.lhs
+\end{Verbatim}
+
+\noindent O grupo deve abrir o ficheiro \texttt{cp2324t.lhs} num editor da sua preferência
+e verificar que assim é: todo o texto que se encontra dentro do ambiente
+\begin{quote}\small\tt
+\text{\ttfamily \char92{}begin\char123{}code\char125{}}
+\\ ... \\
+\text{\ttfamily \char92{}end\char123{}code\char125{}}
+\end{quote}
+é seleccionado pelo \GHCi\ para ser executado.
+
+\section{Em que consiste o TP}
+
+Em que consiste, então, o \emph{relatório} a que se referiu acima?
+É a edição do texto que está a ser lido, preenchendo o anexo \ref{sec:resolucao}
+com as respostas. O relatório deverá conter ainda a identificação dos membros
+do grupo de trabalho, no local respectivo da folha de rosto.
+
+Para gerar o PDF integral do relatório deve-se ainda correr os comando seguintes,
+que actualizam a bibliografia (com \Bibtex) e o índice remissivo (com \Makeindex),
+\begin{Verbatim}[fontsize=\small]
+    $ bibtex cp2324t.aux
+    $ makeindex cp2324t.idx
+\end{Verbatim}
+e recompilar o texto como acima se indicou. (Como já se disse, pode fazê-lo
+correndo simplesmente \texttt{make} no \container.)
+
+No anexo \ref{sec:codigo} disponibiliza-se algum código \Haskell\ relativo
+aos problemas que são colocados. Esse anexo deverá ser consultado e analisado
+à medida que isso for necessário.
+
+Deve ser feito uso da \litp{programação literária} para documentar bem o código que se
+desenvolver, em particular fazendo diagramas explicativos do que foi feito e
+tal como se explica no anexo \ref{sec:diagramas}.
+
+\begin{alert}
+\textbf{Importante:} o grupo deve evitar trabalhar fora deste ficheiro \lhstotex{lhs}
+que lhe é fornecido. Se, para efeitos de divisão de trabalho, o decidir fazer,
+deve \textbf{regularmente integrar} e validar as soluções que forem sendo
+obtidas neste \lhstotex{lhs}, garantindo atempadamente a compatibilidade com este.
+
+Se não o fizer corre o risco de vir a submeter um ficheiro que não corre
+no GHCi e/ou apresenta erros na geração do PDF.
+\end{alert}
+
+\section{Como exprimir cálculos e diagramas em LaTeX/lhs2TeX} \label{sec:diagramas}
+
+Como primeiro exemplo, estudar o texto fonte (\lhstotex{lhs}) do que está a ler\footnote{
+Procure e.g.\ por \texttt{"sec:diagramas"}.} onde se obtém o efeito seguinte:\footnote{Exemplos
+tirados de \cite{Ol18}.}
+\begin{eqnarray*}
+\start
+     \ensuremath{\Varid{id}\mathrel{=}\conj{\Varid{f}}{\Varid{g}}}
+%
+\just\equiv{ universal property }
+%
+        \ensuremath{\begin{lcbr}\p1\comp \Varid{id}\mathrel{=}\Varid{f}\\\p2\comp \Varid{id}\mathrel{=}\Varid{g}\end{lcbr}}
+%
+\just\equiv{ identity }
+%
+        \ensuremath{\begin{lcbr}\p1\mathrel{=}\Varid{f}\\\p2\mathrel{=}\Varid{g}\end{lcbr}}
+\qed
+\end{eqnarray*}
+
+Os diagramas podem ser produzidos recorrendo à \emph{package} \LaTeX\
+\href{https://ctan.org/pkg/xymatrix}{xymatrix}, por exemplo:
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\N_0}
+           \ar[d]_-{\ensuremath{\llparenthesis\, \Varid{g}\,\rrparenthesis}}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0}
+           \ar[d]^{\ensuremath{\Varid{id}\mathbin{+}\llparenthesis\, \Varid{g}\,\rrparenthesis}}
+           \ar[l]_-{\ensuremath{\mathsf{in}}}
+\\
+     \ensuremath{\Conid{B}}
+&
+     \ensuremath{\mathrm{1}\mathbin{+}\Conid{B}}
+           \ar[l]^-{\ensuremath{\Varid{g}}}
+}
+\end{eqnarray*}
+
+\section{Regra prática para a recursividade mútua em \ensuremath{\N_0}}\label{sec:mr}
+
+Nesta disciplina estudou-se como fazer \pd{programação dinâmica} por cálculo,
+recorrendo à lei de recursividade mútua.\footnote{Lei (\ref{eq:fokkinga})
+em \cite{Ol18}, página \pageref{eq:fokkinga}.}
+
+Para o caso de funções sobre os números naturais (\ensuremath{\N_0}, com functor \ensuremath{\fun F \;\Conid{X}\mathrel{=}\mathrm{1}\mathbin{+}\Conid{X}}) pode derivar-se da lei que foi estudada uma
+	\emph{regra de algibeira}
+	\label{pg:regra}
+que se pode ensinar a programadores que não tenham estudado
+\cp{Cálculo de Programas}. Apresenta-se de seguida essa regra, tomando como
+exemplo o cálculo do ciclo-\textsf{for} que implementa a função de Fibonacci,
+recordar o sistema:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{fib}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{fib}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{f}\;\Varid{n}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{fib}\;\Varid{n}\mathbin{+}\Varid{f}\;\Varid{n}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Obter-se-á de imediato
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{4}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{fib'}\mathrel{=}\p1\comp \for{\Varid{loop}}\ {\Varid{init}}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{4}{}\<[4]%
+\>[4]{}\Varid{loop}\;(\Varid{fib},\Varid{f})\mathrel{=}(\Varid{f},\Varid{fib}\mathbin{+}\Varid{f}){}\<[E]%
+\\
+\>[B]{}\hsindent{4}{}\<[4]%
+\>[4]{}\Varid{init}\mathrel{=}(\mathrm{1},\mathrm{1}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+usando as regras seguintes:
+\begin{itemize}
+\item	O corpo do ciclo \ensuremath{\Varid{loop}} terá tantos argumentos quanto o número de funções mutuamente recursivas.
+\item	Para as variáveis escolhem-se os próprios nomes das funções, pela ordem
+que se achar conveniente.\footnote{Podem obviamente usar-se outros símbolos, mas numa primeira leitura
+dá jeito usarem-se tais nomes.}
+\item	Para os resultados vão-se buscar as expressões respectivas, retirando a variável \ensuremath{\Varid{n}}.
+\item	Em \ensuremath{\Varid{init}} coleccionam-se os resultados dos casos de base das funções, pela mesma ordem.
+\end{itemize}
+Mais um exemplo, envolvendo polinómios do segundo grau $ax^2 + b x + c$ em \ensuremath{\N_0}.
+Seguindo o método estudado nas aulas\footnote{Secção 3.17 de \cite{Ol18} e tópico
+\href{https://www4.di.uminho.pt/~jno/media/cp/}{Recursividade mútua} nos vídeos de apoio às aulas teóricas.},
+de $f\ x = a x^2 + b x + c$ derivam-se duas funções mutuamente recursivas:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f}\;\mathrm{0}\mathrel{=}\Varid{c}{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{f}\;\Varid{n}\mathbin{+}\Varid{k}\;\Varid{n}{}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{k}\;\mathrm{0}\mathrel{=}\Varid{a}\mathbin{+}\Varid{b}{}\<[E]%
+\\
+\>[B]{}\Varid{k}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{k}\;\Varid{n}\mathbin{+}\mathrm{2}\;\Varid{a}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Seguindo a regra acima, calcula-se de imediato a seguinte implementação, em Haskell:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f'}\;\Varid{a}\;\Varid{b}\;\Varid{c}\mathrel{=}\p1\comp \for{\Varid{loop}}\ {\Varid{init}}\;\mathbf{where}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{loop}\;(\Varid{f},\Varid{k})\mathrel{=}(\Varid{f}\mathbin{+}\Varid{k},\Varid{k}\mathbin{+}\mathrm{2}\mathbin{*}\Varid{a}){}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\Varid{init}\mathrel{=}(\Varid{c},\Varid{a}\mathbin{+}\Varid{b}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\section{Código fornecido}\label{sec:codigo}
+
+\subsection*{Problema 1}
+Tipos básicos:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\mathbf{type}\;\Conid{Votes}\mathrel{=}\mathbb{Z}{}\<[E]%
+\\
+\>[B]{}\mathbf{type}\;\Conid{Deputies}\mathrel{=}\mathbb{Z}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Dados:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{db}\mathbin{::}[\mskip1.5mu (\Conid{Party},(\Conid{Votes},\Conid{Deputies}))\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{db}\mathrel{=}\map \;\Varid{f}\;\Varid{vote}\;\mathbf{where}\;\Varid{f}\;(\Varid{a},\Varid{b})\mathrel{=}(\Varid{a},(\Varid{b},\mathrm{0})){}\<[E]%
+\\[\blanklineskip]%
+\>[B]{}\Varid{vote}\mathrel{=}[\mskip1.5mu (\Conid{A},\mathrm{12000}),(\Conid{B},\mathrm{7500}),(\Conid{C},\mathrm{4500}),(\Conid{D},\mathrm{3000})\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Apuramento:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{final}\mathrel{=}\map \;(\Varid{id}\times\p2)\comp \Varid{last}{}\<[E]%
+\\
+\>[B]{}\Varid{total}\mathrel{=}\Varid{sum}\;(\map \;\p2\;\Varid{vote}){}\<[E]%
+\\
+\>[B]{}\Varid{wasted}\mathrel{=}\Varid{waste}\;\Varid{history}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\subsection*{Problema 3}
+Definição da série de Catalan usando factoriais (\ref{eq:cat}):
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{catdef}\;\Varid{n}\mathrel{=}{(\mathrm{2}\mathbin{*}\Varid{n})!}\div ({(\Varid{n}\mathbin{+}\mathrm{1})!}\mathbin{*}{\Varid{n}!}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+Oráculo para inspecção dos primeiros 26 números de Catalan\footnote{Fonte:
+\catalan{Wikipedia}.}:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{oracle}\mathrel{=}[\mskip1.5mu {}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathrm{1},\mathrm{1},\mathrm{2},\mathrm{5},\mathrm{14},\mathrm{42},\mathrm{132},\mathrm{429},\mathrm{1430},\mathrm{4862},\mathrm{16796},\mathrm{58786},\mathrm{208012},\mathrm{742900},\mathrm{2674440},\mathrm{9694845},{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathrm{35357670},\mathrm{129644790},\mathrm{477638700},\mathrm{1767263190},\mathrm{6564120420},\mathrm{24466267020},{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathrm{91482563640},\mathrm{343059613650},\mathrm{1289904147324},\mathrm{4861946401452}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mskip1.5mu]{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+
+%----------------- Soluções dos alunos -----------------------------------------%
+
+\section{Soluções dos alunos}\label{sec:resolucao}
+Os grupos devem colocar neste anexo as suas soluções para os exercícios
+propostos, de acordo com o ``layout'' que se fornece.
+Não podem ser alterados os nomes ou tipos das funções dadas, mas pode ser adicionado
+texto, diagramas e/ou outras funções auxiliares que sejam necessárias.
+
+\begin{alert}
+\textbf{Importante}: Não pode ser alterado o texto deste ficheiro fora deste anexo.
+\end{alert}
+
+\subsection*{Problema 1}
+Neste problema, cujo objetivo final era implementar o método de Hondt, primeiramente desenvolvemos as funções \textit{waste}, para resolver a wasted, e a função \textit{step} para descobrir a função history.
+A função \textit{waste} vai buscar o último elemento da history e a cada elemento da lista aplica a função \textit{restantes}, que calcula o número de votos desperdiçados de um partido. Depois a função soma todos os votos desperdiçados de todos os partidos. Isso vai originar a função \textit{wasted}.
+
+Votos desperdiçados:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{waste}\mathrel{=}\Varid{sum}\comp \map \;\Varid{restantes}\comp \Varid{last}{}\<[E]%
+\\
+\>[B]{}\hsindent{5}{}\<[5]%
+\>[5]{}\mathbf{where}\;\Varid{restantes}\mathrel{=}(\mathbin{/})\mathbin{\mathopen{\langle}\$\mathclose{\rangle}}\Varid{fromIntegral}\comp (\p1\comp \p2)\mathbin{<*>}\Varid{fromIntegral}\comp \succ \comp (\p2\comp \p2){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+A função \textit{step} aplica basicamente a função \textit{update}, que vai atualizar o número de deputados de um partido. A função \textit{update} vai verificar se o partido é o partido com maior quociente e se for incrementa o número de deputados desse partido. Esta função foi feita baseada no \textbf{McCarthy's Conditional}. A função \textit{step} vai ser utilizada para construir a \textit{history}.
+Para além disso, a variável \textit{maxParty} vai buscar o partido com maior quociente e a função \textit{quotient} vai calcular o quociente de um partido. A variável \textit{pred} vai verificar se o partido é o partido com maior quociente. 
+
+Corpo do ciclo-\textbf{for}:
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{step}\;\Varid{l}\mathrel{=}\map \;\Varid{update}\;\Varid{l}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{quotient}\;(\anonymous ,(\Varid{v},\Varid{d}))\mathrel{=}\Varid{fromIntegral}\;\Varid{v}\mathbin{/}\Varid{fromIntegral}\;(\succ \;\Varid{d}){}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{maxParty}\mathrel{=}\p1\mathbin{\$}\Varid{maximumBy}\;(\Varid{comparing}\;(\Varid{quotient}))\;\Varid{l}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{pred}\mathrel{=}(\equiv \Varid{maxParty})\comp \p1{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{update}\mathrel{=}(\lambda \Varid{x}\to \mathbf{if}\;\Varid{pred}\;\Varid{x}\;\mathbf{then}\;(\lambda (\Varid{p},(\Varid{v},\Varid{d}))\to (\Varid{p},(\Varid{v},\succ \;\Varid{d})))\;\Varid{x}\;\mathbf{else}\;\Varid{id}\;\Varid{x}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+O \textbf{History} terá os seguintes passos, no exemplo fornecido neste enunciado: 
+\begin{align*}
+    i = 0 & \quad [(A,(12000,0)),(B,(7500,0)),(C,(4500,0)),(D,(3000,0))] \\
+    i = 1 & \quad [(A,(12000,1)),(B,(7500,0)),(C,(4500,0)),(D,(3000,0))] \\
+    i = 2 & \quad [(A,(12000,1)),(B,(7500,1)),(C,(4500,0)),(D,(3000,0))] \\
+    i = 3 & \quad [(A,(12000,2)),(B,(7500,1)),(C,(4500,0)),(D,(3000,0))] \\
+    i = 4 & \quad [(A,(12000,2)),(B,(7500,1)),(C,(4500,1)),(D,(3000,0))] \\
+    i = 5 & \quad [(A,(12000,3)),(B,(7500,1)),(C,(4500,1)),(D,(3000,0))] \\
+    i = 6 & \quad [(A,(12000,3)),(B,(7500,2)),(C,(4500,1)),(D,(3000,0))] \\
+    i = 7 & \quad [(A,(12000,3)),(B,(7500,2)),(C,(4500,1)),(D,(3000,1))]
+\end{align*}
+
+\subsection*{Problema 2}
+
+Genes de \ensuremath{\Varid{mergek}}:
+
+O anamorfismo g recebe uma lista de listas ordenadas e cria pares recursivamente. Por sua vez, o catamorfismo f aplica a função merge a pares de listas recursivamente. O resultado do hilomorfismo mergek será uma única lista ordenada.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{f}\mathbin{::}(\Conid{Ord}\;\Varid{a})\Rightarrow ()+([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu \Varid{a}\mskip1.5mu])\to [\mskip1.5mu \Varid{a}\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(i_1\;())\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{f}\;(i_2\;(\Varid{xs},\Varid{ys}))\mathrel{=}\Varid{merge}\;(\Varid{xs},\Varid{ys}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{g}\mathbin{::}[\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]\to ()+([\mskip1.5mu \Varid{a}\mskip1.5mu],[\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{g}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}i_1\;(){}\<[E]%
+\\
+\>[B]{}\Varid{g}\;[\mskip1.5mu \Varid{x}\mskip1.5mu]\mathrel{=}i_2\;(\Varid{x},[\mskip1.5mu \mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{g}\;(\Varid{x}\mathbin{:}\Varid{xs})\mathrel{=}i_2\;(\Varid{x},\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+O seguinte diagrama representa o hilomorfismo mergek:
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    (\ensuremath{\N_0}^*)^*
+           \ar[r]^-{\ensuremath{\Varid{g}}}
+           \ar[d]_-{\ensuremath{\anaList{\Varid{g}}}}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0}^* + (\ensuremath{\N_0}^*)^*
+           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}\;\Varid{x}\;\Varid{g}}}
+\\
+    (\ensuremath{\N_0}^*)^*
+           \ar[d]_-{\ensuremath{\llparenthesis\, \Varid{f}\,\rrparenthesis}}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0}^* + (\ensuremath{\N_0}^*)^*
+           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}\;\Varid{x}\;\Varid{f}}}
+\\
+    \ensuremath{\N_0}^*
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0}^* + \ensuremath{\N_0}^*
+           \ar[l]^-{\ensuremath{\Varid{f}}}
+}
+\end{eqnarray*}
+
+\noindent Extensão de \ensuremath{\Varid{mSort}}:
+
+Foi criada uma função lsplitk'' que parte uma lista em k sublistas recursivamente. Se k receber o valor de 1, é dado um caso de paragem que coloca cada elemento da lista numa lista dentro da nova lista. Este caso foi implementado para não conduzir a um loop infinito.
+Esta nova função lsplitk'' permite criar um hilomorfismo mSortk que implementa mergek onde mSort implementaria merge.
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{mSortk}\;\Varid{k}\mathrel{=}\alt{\Varid{singl}}{\Varid{mergek}}\comp (\Varid{id}+\map \;(\Varid{mSortk}\;\Varid{k}))\comp (\Varid{lsplitk''}\;\Varid{k}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{3}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{5}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{7}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{9}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{21}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{lsplitk}\mathbin{::}\Conid{Int}\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to [\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{lsplitk}\;\Varid{k}\;\Varid{l}\mathrel{=}\Varid{lsplitk'}\;\Varid{k}\;(\length \;\Varid{l})\;\Varid{l}{}\<[E]%
+\\
+\>[B]{}\hsindent{3}{}\<[3]%
+\>[3]{}\mathbf{where}{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{lsplitk'}\;\anonymous \;\anonymous \;[\mskip1.5mu \mskip1.5mu]\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{lsplitk'}\;\mathrm{0}\;\anonymous \;\anonymous {}\<[21]%
+\>[21]{}\mathrel{=}[\mskip1.5mu \mskip1.5mu]{}\<[E]%
+\\
+\>[3]{}\hsindent{2}{}\<[5]%
+\>[5]{}\Varid{lsplitk'}\;\Varid{i}\;\Varid{n}\;\Varid{l}{}\<[21]%
+\>[21]{}\mathrel{=}\Varid{take}\;\Varid{tamanho}\;\Varid{l}\mathbin{:}\Varid{lsplitk'}\;(\Varid{i}\mathbin{-}\mathrm{1})\;(\Varid{n}\mathbin{-}\Varid{tamanho})\;(\Varid{drop}\;\Varid{tamanho}\;\Varid{l}){}\<[E]%
+\\
+\>[5]{}\hsindent{2}{}\<[7]%
+\>[7]{}\mathbf{where}{}\<[E]%
+\\
+\>[7]{}\hsindent{2}{}\<[9]%
+\>[9]{}\Varid{tamanho}\mathrel{=}(\Varid{n}\mathbin{+}\Varid{i}\mathbin{-}\mathrm{1})\mathbin{\Varid{`div`}}\Varid{i}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{17}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{lsplitk''}\mathbin{::}\Conid{Int}\to [\mskip1.5mu \Varid{a}\mskip1.5mu]\to \Varid{a}+[\mskip1.5mu [\mskip1.5mu \Varid{a}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{lsplitk''}\;\anonymous \;[\mskip1.5mu \Varid{x}\mskip1.5mu]\mathrel{=}i_1\;\Varid{x}{}\<[E]%
+\\
+\>[B]{}\Varid{lsplitk''}\;\mathrm{1}\;\Varid{xs}{}\<[17]%
+\>[17]{}\mathrel{=}i_2\mathbin{\$}\map \;(\lambda \Varid{x}\to [\mskip1.5mu \Varid{x}\mskip1.5mu])\;\Varid{xs}{}\<[E]%
+\\
+\>[B]{}\Varid{lsplitk''}\;\Varid{k}\;\Varid{xs}{}\<[17]%
+\>[17]{}\mathrel{=}i_2\;(\Varid{lsplitk}\;\Varid{k}\;\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+O algoritmo mSort original divide a lista em dois recursivamente até que cada sublista contenha apenas um elemento. A implementação de mSortk, que recebe um inteiro k pelo utilizador, permite ajustar a divisão da lista, restringindo o número de chamadas recursivas ao necessário e resultando num desempenho mais eficiente.
+
+\subsection*{Problema 3}
+Sendo
+\begin{math}
+	catalan(n) = \frac{(2n)!}{(n+1)! (n!) }
+\end{math}
+é imediato que $catalan(0) = 1$.
+
+Para \textit{cat} ser uma implementação mais eficiente de \textit{catalan}, derivada por recursividade mútua, não calculando factoriais nenhuns, é necessário encontrar um \textit{k} tal que, \[catalan(n+1) = k * catalan(n)\]
+
+Para tal fazemos os seguintes cálculos matemáticos:
+
+\begin{math}
+k = \frac{catalan(n+1)} {catalan(n)} = \frac{\frac{(2(n+1))!}{(n+1+1)! (n+1!)}} {\frac{(2n)!}{(n+1)! (n!)}} = \frac{(2n+2)! (n+1)! (n!)} {(n+2)! (n+1)! (2n)!} = \frac{(2n+2) (2n+1) (2n)! (n!)} {(n+2) (n+1) (n)! (2n)!} = \frac{(2n+2) (2n+1)} {(n+2) (n+1)} =
+\end{math}
+
+\begin{math}
+= \frac{2(n+1) (2n+1)} {(n+2) (n+1)} = \frac{2(2n+1)} {(n+2)}  = \frac{4n+2} {(n+2)} 
+\end{math}
+
+Temos então \[catalan(n+1) = \frac{4n+2} {(n+2)} * catalan(n)\]
+
+Sendo $k(n) = \frac{4n+2} {(n+2)}$ podemos dividir \textit{k} em duas funções:
+$num = 4n +2$ e $denom = n+2$
+
+Logo, 
+
+\begin{math}
+num(0) = denom(0) = 2
+\end{math}
+
+\begin{math}
+num(n+1) = 4(n+1)+2 = 4n + 4 + 2 = 4 + 4n + 2 = num(n) + 4
+\end{math}
+
+\begin{math}
+denom(n+1) = n + 1 + 2 = n + 2 + 1 = denom(n) + 1
+\end{math}
+
+Assim, temos: 
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{catalan}\;\mathrm{0}\mathrel{=}\mathrm{1}{}\<[E]%
+\\
+\>[B]{}\Varid{catalan}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{num}\;(\Varid{n})\mathbin{*}\Varid{catalan}\;(\Varid{n})\mathbin{\Varid{`div`}}\Varid{denom}\;(\Varid{n}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{num}\;\mathrm{0}\mathrel{=}\mathrm{2}{}\<[E]%
+\\
+\>[B]{}\Varid{num}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{num}\;(\Varid{n})\mathbin{+}\mathrm{4}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{denom}\;\mathrm{0}\mathrel{=}\mathrm{2}{}\<[E]%
+\\
+\>[B]{}\Varid{denom}\;(\Varid{n}\mathbin{+}\mathrm{1})\mathrel{=}\Varid{denom}\;(\Varid{n})\mathbin{+}\mathrm{1}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Podemos concluir que:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{cat}\mathrel{=}\Varid{prj}\comp \for{\Varid{loop}}\ {\Varid{inic}}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+onde:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{loop}\;(\Varid{catalan},\Varid{num},\Varid{denom})\mathrel{=}((\Varid{num}\mathbin{*}\Varid{catalan})\mathbin{\Varid{`div`}}\Varid{denom},\Varid{num}\mathbin{+}\mathrm{4},\Varid{denom}\mathbin{+}\mathrm{1}){}\<[E]%
+\\
+\>[B]{}\Varid{inic}\mathrel{=}(\mathrm{1},\mathrm{2},\mathrm{2}){}\<[E]%
+\\
+\>[B]{}\Varid{prj}\;(\Varid{catalan},\Varid{num},\Varid{denom})\mathrel{=}\Varid{catalan}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\textit{catdef} é menos eficiente que \textit{cat} principalmente quando o n é elevado, como mencionado no enunciado, por requerir múltiplos cálculos de factoriais repetitivos. Já \textit{cat} vai atualizando os valores de \textit{catalan}, \textit{num}, e \textit{denom} a cada passo evitando cálculos repetitivos.
+
+\textbf{Nota:}
+
+Em inic, 1 é o valor de catalan(0), 2 é o valor de num(0) e 2 é o valor de denom(0), sendo estes os valores iniciais.
+
+\subsection*{Problema 4}
+De forma a solucionar o problema de forma simples, \textit{lrh} é definida por um hilomorfismo e pela função \textit{geraListas}:
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{lrh}\mathrel{=}\hyloList{\Varid{c}}{\Varid{a}}\comp \Varid{geraListas}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+A função \textit{geraListas} recebe a lista das alturas de cada barra do histograma e gera as várias sublistas que podem estar contidas em tal.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{geraListas}\mathbin{::}[\mskip1.5mu \Conid{Int}\mskip1.5mu]\to [\mskip1.5mu [\mskip1.5mu \Conid{Int}\mskip1.5mu]\mskip1.5mu]{}\<[E]%
+\\
+\>[B]{}\Varid{geraListas}\;\Varid{heights}\mathrel{=}\Varid{concatMap}\;\Varid{inits}\;(\Varid{tails}\;\Varid{heights}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Após isso, é então efetuado o hilomorfismo que recebe a lista de listas gerada por \textit{geraListas}.
+É pelo anamorfismo \textit{a} que é calculada a área para cada lista recursivamente com o auxílio da função \textit{calculaArea}.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{a}\mathbin{::}[\mskip1.5mu [\mskip1.5mu \Conid{Int}\mskip1.5mu]\mskip1.5mu]\to ()+(\Conid{Int},[\mskip1.5mu [\mskip1.5mu \Conid{Int}\mskip1.5mu]\mskip1.5mu]){}\<[E]%
+\\
+\>[B]{}\Varid{a}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}i_1\;(){}\<[E]%
+\\
+\>[B]{}\Varid{a}\;(\Varid{x}\mathbin{:}\Varid{xs})\mathrel{=}i_2\;(\Varid{calculaArea}\;\Varid{x},\Varid{xs}){}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+\textit{calculaArea} calcula a área do retângulo inscrito na lista recebida.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{calculaArea}\mathbin{::}[\mskip1.5mu \Conid{Int}\mskip1.5mu]\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{calculaArea}\;[\mskip1.5mu \mskip1.5mu]\mathrel{=}\mathrm{0}{}\<[E]%
+\\
+\>[B]{}\Varid{calculaArea}\;\Varid{heights}\mathrel{=}\Varid{minimum}\;\Varid{heights}\mathbin{*}\length \;\Varid{heights}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+É pelo catamorfismo \textit{c} que é calculada, recursivamente, a maior área entre as áreas de todos os retângulos que são possíveis inscrever no histograma.
+\begin{hscode}\SaveRestoreHook
+\column{B}{@{}>{\hspre}l<{\hspost}@{}}%
+\column{E}{@{}>{\hspre}l<{\hspost}@{}}%
+\>[B]{}\Varid{c}\mathbin{::}()+(\Conid{Int},\Conid{Int})\to \Conid{Int}{}\<[E]%
+\\
+\>[B]{}\Varid{c}\;(i_1\;())\mathrel{=}\mathrm{0}{}\<[E]%
+\\
+\>[B]{}\Varid{c}\;(i_2\;(\Varid{xs},\Varid{ys}))\mathrel{=}\Varid{max}\;\Varid{xs}\;\Varid{ys}{}\<[E]%
+\ColumnHook
+\end{hscode}\resethooks
+
+Os seguintes diagramas ilustram, respetivamente, \textit{geraListas} e o hilomorfismo:
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    \ensuremath{\N_0}^*
+           \ar[r]^{\ensuremath{\Varid{geraListas}}}
+&
+    (\ensuremath{\N_0}^*)^*
+}
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\xymatrix@C=2cm{
+    (\ensuremath{\N_0}^*)^*
+           \ar[r]^-{\ensuremath{\Varid{a}}}
+           \ar[d]_-{\ensuremath{\anaList{\Varid{a}}}}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0} + (\ensuremath{\N_0}^*)^*
+           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}} \times \ensuremath{\Varid{a}}}
+\\
+    \ensuremath{\N_0}^*
+           \ar[d]_-{\ensuremath{\llparenthesis\, \Varid{c}\,\rrparenthesis}}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0} + \ensuremath{\N_0}^*
+           \ar[d]^-{\ensuremath{\Varid{id}\mathbin{+}\Varid{id}} \times \ensuremath{\Varid{c}}}
+\\
+    \ensuremath{\N_0}
+&
+    \ensuremath{\mathrm{1}\mathbin{+}\N_0} + \ensuremath{\N_0}
+           \ar[l]^-{\ensuremath{\Varid{c}}}
+}
+\end{eqnarray*}
+
+Assim, através dos passos descritos atrás, chegamos à solução do problema; a função \textit{lrh} já definida no início.
+
+%----------------- Índice remissivo (exige makeindex) -------------------------%
+
+\printindex
+
+%----------------- Bibliografia (exige bibtex) --------------------------------%
+
+\bibliographystyle{plain}
+\bibliography{cp2324t}
+
+%----------------- Fim do documento -------------------------------------------%
+\end{document}

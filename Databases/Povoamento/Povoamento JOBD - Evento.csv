@@ -1,0 +1,19 @@
+idEvento,nome,tipo,regulamento,data,idModalidade
+1,15k Individual Feminino,Singular,Não matar,2026-02-02 10:00:00,1
+2,4x7.5km Revezamento Masculino,Múltiplos,Não empurrar,2026-02-03 12:00:00,1
+3,Bobsled Duplas Masculino,Múltiplos,Seguir o curso,2026-02-05 15:00:00,2
+4,Bobsled Quarteto Feminino,Múltiplos,Seguir o curso,2026-02-07 11:00:00,2
+5,Combinado Nórdico Individual,Singular,Completar ambas etapas,2026-02-06 14:00:00,3
+6,Curling Equipe Feminina,Múltiplos,Pontuar na casa,2026-02-08 9:00:00,4
+7,Descida de Esqui Alpino Masculino,Singular,Seguir o trajeto,2026-02-09 10:30:00,5
+8,Sprint Cross-Country Feminino,Singular,Seguir o trajeto,2026-02-04 13:00:00,6
+9,Esqui de Montanha Individual,Singular,Alcançar a meta,2026-02-11 8:00:00,7
+10,Halfpipe Estilo Livre Masculino,Singular,Pontuação técnica,2026-02-12 16:00:00,8
+11,Hóquei no Gelo Final Masculina,Múltiplos,Padrões IIHF,2026-02-10 19:00:00,9
+12,Luge Individual Feminino,Singular,Completar o percurso,2026-02-03 14:00:00,10
+13,Patinação Artística Livre Feminina,Singular,Pontuação artística,2026-02-06 18:00:00,11
+14,500m Patinação de Velocidade Masculino,Singular,Velocidade máxima,2026-02-05 17:00:00,12
+15,1000m Pista Curta Feminina,Singular,Seguir a pista,2026-02-07 20:00:00,13
+16,Salto de Esqui Equipe Masculina,Múltiplos,Pontuação por distância,2026-02-08 13:00:00,14
+17,Skeleton Individual Masculino,Singular,Completar o percurso,2026-02-09 15:00:00,15
+18,Slalom Snowboard Feminino,Singular,Seguir a rota,2026-02-10 10:00:00,16

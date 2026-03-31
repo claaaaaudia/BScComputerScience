@@ -1,0 +1,18 @@
+% Problem 2 - Road and Railway
+% Cláudia Faria A105531
+
+act car, up, ccross, dw, train, green, tcross, red, syncUp, syncDw, syncGreen, syncRed;
+
+proc Road = car.up.ccross.dw.Road;
+     Rail = train.green.tcross.red.Rail;
+     Signal = green.red.Signal + up.dw.Signal;
+ 	 C = hide({syncUp, syncDw, syncGreen, syncRed},
+		 block({up, dw, green, red},
+         comm(
+                {up|up -> syncUp, dw|dw -> syncDw, green|green -> syncGreen, red|red -> syncRed},
+                 Road || Rail || Signal
+               )));
+
+init C;
+
+

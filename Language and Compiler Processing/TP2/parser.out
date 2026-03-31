@@ -1,0 +1,1350 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> Programa
+Rule 1     Programa -> Declaracoes Funcoes
+Rule 2     Declaracoes -> Declaracao
+Rule 3     Declaracoes -> Declaracoes Declaracao
+Rule 4     Funcoes -> Funcao
+Rule 5     Funcoes -> Funcoes Funcao
+Rule 6     Funcao -> Selecao
+Rule 7     Funcao -> Ciclo
+Rule 8     Funcao -> Subprograma
+Rule 9     Funcao -> Atribuicao
+Rule 10    Declaracao -> INT VAR
+Rule 11    Atribuicao -> VAR IGUAL Expressao
+Rule 12    Expressao -> NUM
+Rule 13    Expressao -> VAR
+Rule 14    Expressao -> Operacao
+Rule 15    Expressao -> ChamadaFuncao
+Rule 16    ChamadaFuncao -> F
+Rule 17    Operacao -> VAR Operador VAR
+Rule 18    Operacao -> NUM Operador NUM
+Rule 19    Operacao -> NUM Operador VAR
+Rule 20    Operacao -> VAR Operador NUM
+Rule 21    Operador -> VEZES
+Rule 22    Operador -> MAIS
+Rule 23    Operador -> MENOS
+Rule 24    Operador -> DIV
+Rule 25    Selecao -> IF Condicao DOISPT Corpo ENDIF
+Rule 26    Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+Rule 27    Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE
+Rule 28    Condicao -> LPAREN Expressao Comparador Expressao RPAREN
+Rule 29    Condicao -> LPAREN Condicao AND Condicao RPAREN
+Rule 30    Condicao -> LPAREN Condicao OR Condicao RPAREN
+Rule 31    Condicao -> LPAREN NAO Condicao RPAREN
+Rule 32    Condicao -> LPAREN Condicao RPAREN
+Rule 33    Comparador -> MAIOR
+Rule 34    Comparador -> MENOR
+Rule 35    Comparador -> MAIOR IGUAL
+Rule 36    Comparador -> MENOR IGUAL
+Rule 37    Comparador -> NAO IGUAL
+Rule 38    Comparador -> IGUAL IGUAL
+Rule 39    Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE
+Rule 40    Corpo -> C Corpo
+Rule 41    Corpo -> C
+Rule 42    C -> Selecao
+Rule 43    C -> Atribuicao
+Rule 44    C -> Ciclo
+Rule 45    F -> PALAVRA LPAREN RPAREN
+Rule 46    VAR -> PALAVRA
+
+Terminals, with rules where they appear
+
+AND                  : 29
+DEFINE               : 39
+DIV                  : 24
+DOISPT               : 25 26 26 27 39
+ELSE                 : 26
+ENDDEFINE            : 39
+ENDELSE              : 26
+ENDIF                : 25 26
+ENDWHILE             : 27
+IF                   : 25 26
+IGUAL                : 11 35 36 37 38 38
+INT                  : 10
+LPAREN               : 28 29 30 31 32 45
+MAIOR                : 33 35
+MAIS                 : 22
+MENOR                : 34 36
+MENOS                : 23
+NAO                  : 31 37
+NUM                  : 12 18 18 19 20
+OR                   : 30
+PALAVRA              : 45 46
+RETURN               : 39
+RPAREN               : 28 29 30 31 32 45
+VEZES                : 21
+WHILE                : 27
+error                : 
+
+Nonterminals, with rules where they appear
+
+Atribuicao           : 9 43
+C                    : 40 41
+ChamadaFuncao        : 15
+Ciclo                : 7 44
+Comparador           : 28
+Condicao             : 25 26 27 29 29 30 30 31 32
+Corpo                : 25 26 26 27 39 40
+Declaracao           : 2 3
+Declaracoes          : 1 3
+Expressao            : 11 28 28 39
+F                    : 16 39
+Funcao               : 4 5
+Funcoes              : 1 5
+Operacao             : 14
+Operador             : 17 18 19 20
+Programa             : 0
+Selecao              : 6 42
+Subprograma          : 8
+VAR                  : 10 11 13 17 17 19 20
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Programa
+    (1) Programa -> . Declaracoes Funcoes
+    (2) Declaracoes -> . Declaracao
+    (3) Declaracoes -> . Declaracoes Declaracao
+    (10) Declaracao -> . INT VAR
+
+    INT             shift and go to state 4
+
+    Programa                       shift and go to state 1
+    Declaracoes                    shift and go to state 2
+    Declaracao                     shift and go to state 3
+
+state 1
+
+    (0) S' -> Programa .
+
+
+
+state 2
+
+    (1) Programa -> Declaracoes . Funcoes
+    (3) Declaracoes -> Declaracoes . Declaracao
+    (4) Funcoes -> . Funcao
+    (5) Funcoes -> . Funcoes Funcao
+    (10) Declaracao -> . INT VAR
+    (6) Funcao -> . Selecao
+    (7) Funcao -> . Ciclo
+    (8) Funcao -> . Subprograma
+    (9) Funcao -> . Atribuicao
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (39) Subprograma -> . DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (46) VAR -> . PALAVRA
+
+    INT             shift and go to state 4
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    DEFINE          shift and go to state 15
+    PALAVRA         shift and go to state 16
+
+    Funcoes                        shift and go to state 5
+    Declaracao                     shift and go to state 6
+    Funcao                         shift and go to state 7
+    VAR                            shift and go to state 8
+    Selecao                        shift and go to state 9
+    Ciclo                          shift and go to state 10
+    Subprograma                    shift and go to state 11
+    Atribuicao                     shift and go to state 12
+
+state 3
+
+    (2) Declaracoes -> Declaracao .
+
+    INT             reduce using rule 2 (Declaracoes -> Declaracao .)
+    IF              reduce using rule 2 (Declaracoes -> Declaracao .)
+    WHILE           reduce using rule 2 (Declaracoes -> Declaracao .)
+    DEFINE          reduce using rule 2 (Declaracoes -> Declaracao .)
+    PALAVRA         reduce using rule 2 (Declaracoes -> Declaracao .)
+
+
+state 4
+
+    (10) Declaracao -> INT . VAR
+    (46) VAR -> . PALAVRA
+
+    PALAVRA         shift and go to state 16
+
+    VAR                            shift and go to state 17
+
+state 5
+
+    (1) Programa -> Declaracoes Funcoes .
+    (5) Funcoes -> Funcoes . Funcao
+    (6) Funcao -> . Selecao
+    (7) Funcao -> . Ciclo
+    (8) Funcao -> . Subprograma
+    (9) Funcao -> . Atribuicao
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (39) Subprograma -> . DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (46) VAR -> . PALAVRA
+
+    $end            reduce using rule 1 (Programa -> Declaracoes Funcoes .)
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    DEFINE          shift and go to state 15
+    PALAVRA         shift and go to state 16
+
+    Funcao                         shift and go to state 18
+    Selecao                        shift and go to state 9
+    Ciclo                          shift and go to state 10
+    Subprograma                    shift and go to state 11
+    Atribuicao                     shift and go to state 12
+    VAR                            shift and go to state 8
+
+state 6
+
+    (3) Declaracoes -> Declaracoes Declaracao .
+
+    INT             reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+    IF              reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+    WHILE           reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+    DEFINE          reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+    PALAVRA         reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+
+
+state 7
+
+    (4) Funcoes -> Funcao .
+
+    IF              reduce using rule 4 (Funcoes -> Funcao .)
+    WHILE           reduce using rule 4 (Funcoes -> Funcao .)
+    DEFINE          reduce using rule 4 (Funcoes -> Funcao .)
+    PALAVRA         reduce using rule 4 (Funcoes -> Funcao .)
+    $end            reduce using rule 4 (Funcoes -> Funcao .)
+
+
+state 8
+
+    (11) Atribuicao -> VAR . IGUAL Expressao
+
+    IGUAL           shift and go to state 19
+
+
+state 9
+
+    (6) Funcao -> Selecao .
+
+    IF              reduce using rule 6 (Funcao -> Selecao .)
+    WHILE           reduce using rule 6 (Funcao -> Selecao .)
+    DEFINE          reduce using rule 6 (Funcao -> Selecao .)
+    PALAVRA         reduce using rule 6 (Funcao -> Selecao .)
+    $end            reduce using rule 6 (Funcao -> Selecao .)
+
+
+state 10
+
+    (7) Funcao -> Ciclo .
+
+    IF              reduce using rule 7 (Funcao -> Ciclo .)
+    WHILE           reduce using rule 7 (Funcao -> Ciclo .)
+    DEFINE          reduce using rule 7 (Funcao -> Ciclo .)
+    PALAVRA         reduce using rule 7 (Funcao -> Ciclo .)
+    $end            reduce using rule 7 (Funcao -> Ciclo .)
+
+
+state 11
+
+    (8) Funcao -> Subprograma .
+
+    IF              reduce using rule 8 (Funcao -> Subprograma .)
+    WHILE           reduce using rule 8 (Funcao -> Subprograma .)
+    DEFINE          reduce using rule 8 (Funcao -> Subprograma .)
+    PALAVRA         reduce using rule 8 (Funcao -> Subprograma .)
+    $end            reduce using rule 8 (Funcao -> Subprograma .)
+
+
+state 12
+
+    (9) Funcao -> Atribuicao .
+
+    IF              reduce using rule 9 (Funcao -> Atribuicao .)
+    WHILE           reduce using rule 9 (Funcao -> Atribuicao .)
+    DEFINE          reduce using rule 9 (Funcao -> Atribuicao .)
+    PALAVRA         reduce using rule 9 (Funcao -> Atribuicao .)
+    $end            reduce using rule 9 (Funcao -> Atribuicao .)
+
+
+state 13
+
+    (25) Selecao -> IF . Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> IF . Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+
+    LPAREN          shift and go to state 21
+
+    Condicao                       shift and go to state 20
+
+state 14
+
+    (27) Ciclo -> WHILE . Condicao DOISPT Corpo ENDWHILE
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+
+    LPAREN          shift and go to state 21
+
+    Condicao                       shift and go to state 22
+
+state 15
+
+    (39) Subprograma -> DEFINE . F DOISPT Corpo RETURN Expressao ENDDEFINE
+    (45) F -> . PALAVRA LPAREN RPAREN
+
+    PALAVRA         shift and go to state 24
+
+    F                              shift and go to state 23
+
+state 16
+
+    (46) VAR -> PALAVRA .
+
+    IGUAL           reduce using rule 46 (VAR -> PALAVRA .)
+    INT             reduce using rule 46 (VAR -> PALAVRA .)
+    IF              reduce using rule 46 (VAR -> PALAVRA .)
+    WHILE           reduce using rule 46 (VAR -> PALAVRA .)
+    DEFINE          reduce using rule 46 (VAR -> PALAVRA .)
+    PALAVRA         reduce using rule 46 (VAR -> PALAVRA .)
+    $end            reduce using rule 46 (VAR -> PALAVRA .)
+    ENDIF           reduce using rule 46 (VAR -> PALAVRA .)
+    ELSE            reduce using rule 46 (VAR -> PALAVRA .)
+    ENDWHILE        reduce using rule 46 (VAR -> PALAVRA .)
+    RETURN          reduce using rule 46 (VAR -> PALAVRA .)
+    ENDELSE         reduce using rule 46 (VAR -> PALAVRA .)
+    MAIOR           reduce using rule 46 (VAR -> PALAVRA .)
+    MENOR           reduce using rule 46 (VAR -> PALAVRA .)
+    NAO             reduce using rule 46 (VAR -> PALAVRA .)
+    RPAREN          reduce using rule 46 (VAR -> PALAVRA .)
+    ENDDEFINE       reduce using rule 46 (VAR -> PALAVRA .)
+
+
+state 17
+
+    (10) Declaracao -> INT VAR .
+
+    INT             reduce using rule 10 (Declaracao -> INT VAR .)
+    IF              reduce using rule 10 (Declaracao -> INT VAR .)
+    WHILE           reduce using rule 10 (Declaracao -> INT VAR .)
+    DEFINE          reduce using rule 10 (Declaracao -> INT VAR .)
+    PALAVRA         reduce using rule 10 (Declaracao -> INT VAR .)
+
+
+state 18
+
+    (5) Funcoes -> Funcoes Funcao .
+
+    IF              reduce using rule 5 (Funcoes -> Funcoes Funcao .)
+    WHILE           reduce using rule 5 (Funcoes -> Funcoes Funcao .)
+    DEFINE          reduce using rule 5 (Funcoes -> Funcoes Funcao .)
+    PALAVRA         reduce using rule 5 (Funcoes -> Funcoes Funcao .)
+    $end            reduce using rule 5 (Funcoes -> Funcoes Funcao .)
+
+
+state 19
+
+    (11) Atribuicao -> VAR IGUAL . Expressao
+    (12) Expressao -> . NUM
+    (13) Expressao -> . VAR
+    (14) Expressao -> . Operacao
+    (15) Expressao -> . ChamadaFuncao
+    (46) VAR -> . PALAVRA
+    (17) Operacao -> . VAR Operador VAR
+    (18) Operacao -> . NUM Operador NUM
+    (19) Operacao -> . NUM Operador VAR
+    (20) Operacao -> . VAR Operador NUM
+    (16) ChamadaFuncao -> . F
+    (45) F -> . PALAVRA LPAREN RPAREN
+
+    NUM             shift and go to state 27
+    PALAVRA         shift and go to state 30
+
+    VAR                            shift and go to state 25
+    Expressao                      shift and go to state 26
+    Operacao                       shift and go to state 28
+    ChamadaFuncao                  shift and go to state 29
+    F                              shift and go to state 31
+
+state 20
+
+    (25) Selecao -> IF Condicao . DOISPT Corpo ENDIF
+    (26) Selecao -> IF Condicao . DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+
+    DOISPT          shift and go to state 32
+
+
+state 21
+
+    (28) Condicao -> LPAREN . Expressao Comparador Expressao RPAREN
+    (29) Condicao -> LPAREN . Condicao AND Condicao RPAREN
+    (30) Condicao -> LPAREN . Condicao OR Condicao RPAREN
+    (31) Condicao -> LPAREN . NAO Condicao RPAREN
+    (32) Condicao -> LPAREN . Condicao RPAREN
+    (12) Expressao -> . NUM
+    (13) Expressao -> . VAR
+    (14) Expressao -> . Operacao
+    (15) Expressao -> . ChamadaFuncao
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+    (46) VAR -> . PALAVRA
+    (17) Operacao -> . VAR Operador VAR
+    (18) Operacao -> . NUM Operador NUM
+    (19) Operacao -> . NUM Operador VAR
+    (20) Operacao -> . VAR Operador NUM
+    (16) ChamadaFuncao -> . F
+    (45) F -> . PALAVRA LPAREN RPAREN
+
+    NAO             shift and go to state 35
+    NUM             shift and go to state 27
+    LPAREN          shift and go to state 21
+    PALAVRA         shift and go to state 30
+
+    Expressao                      shift and go to state 33
+    Condicao                       shift and go to state 34
+    VAR                            shift and go to state 25
+    Operacao                       shift and go to state 28
+    ChamadaFuncao                  shift and go to state 29
+    F                              shift and go to state 31
+
+state 22
+
+    (27) Ciclo -> WHILE Condicao . DOISPT Corpo ENDWHILE
+
+    DOISPT          shift and go to state 36
+
+
+state 23
+
+    (39) Subprograma -> DEFINE F . DOISPT Corpo RETURN Expressao ENDDEFINE
+
+    DOISPT          shift and go to state 37
+
+
+state 24
+
+    (45) F -> PALAVRA . LPAREN RPAREN
+
+    LPAREN          shift and go to state 38
+
+
+state 25
+
+    (13) Expressao -> VAR .
+    (17) Operacao -> VAR . Operador VAR
+    (20) Operacao -> VAR . Operador NUM
+    (21) Operador -> . VEZES
+    (22) Operador -> . MAIS
+    (23) Operador -> . MENOS
+    (24) Operador -> . DIV
+
+    IF              reduce using rule 13 (Expressao -> VAR .)
+    WHILE           reduce using rule 13 (Expressao -> VAR .)
+    DEFINE          reduce using rule 13 (Expressao -> VAR .)
+    PALAVRA         reduce using rule 13 (Expressao -> VAR .)
+    $end            reduce using rule 13 (Expressao -> VAR .)
+    ENDIF           reduce using rule 13 (Expressao -> VAR .)
+    ELSE            reduce using rule 13 (Expressao -> VAR .)
+    ENDWHILE        reduce using rule 13 (Expressao -> VAR .)
+    RETURN          reduce using rule 13 (Expressao -> VAR .)
+    ENDELSE         reduce using rule 13 (Expressao -> VAR .)
+    MAIOR           reduce using rule 13 (Expressao -> VAR .)
+    MENOR           reduce using rule 13 (Expressao -> VAR .)
+    NAO             reduce using rule 13 (Expressao -> VAR .)
+    IGUAL           reduce using rule 13 (Expressao -> VAR .)
+    RPAREN          reduce using rule 13 (Expressao -> VAR .)
+    ENDDEFINE       reduce using rule 13 (Expressao -> VAR .)
+    VEZES           shift and go to state 40
+    MAIS            shift and go to state 41
+    MENOS           shift and go to state 42
+    DIV             shift and go to state 43
+
+    Operador                       shift and go to state 39
+
+state 26
+
+    (11) Atribuicao -> VAR IGUAL Expressao .
+
+    IF              reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    WHILE           reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    DEFINE          reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    PALAVRA         reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    $end            reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    ENDIF           reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    ELSE            reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    ENDWHILE        reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    RETURN          reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+    ENDELSE         reduce using rule 11 (Atribuicao -> VAR IGUAL Expressao .)
+
+
+state 27
+
+    (12) Expressao -> NUM .
+    (18) Operacao -> NUM . Operador NUM
+    (19) Operacao -> NUM . Operador VAR
+    (21) Operador -> . VEZES
+    (22) Operador -> . MAIS
+    (23) Operador -> . MENOS
+    (24) Operador -> . DIV
+
+    IF              reduce using rule 12 (Expressao -> NUM .)
+    WHILE           reduce using rule 12 (Expressao -> NUM .)
+    DEFINE          reduce using rule 12 (Expressao -> NUM .)
+    PALAVRA         reduce using rule 12 (Expressao -> NUM .)
+    $end            reduce using rule 12 (Expressao -> NUM .)
+    ENDIF           reduce using rule 12 (Expressao -> NUM .)
+    ELSE            reduce using rule 12 (Expressao -> NUM .)
+    ENDWHILE        reduce using rule 12 (Expressao -> NUM .)
+    RETURN          reduce using rule 12 (Expressao -> NUM .)
+    ENDELSE         reduce using rule 12 (Expressao -> NUM .)
+    MAIOR           reduce using rule 12 (Expressao -> NUM .)
+    MENOR           reduce using rule 12 (Expressao -> NUM .)
+    NAO             reduce using rule 12 (Expressao -> NUM .)
+    IGUAL           reduce using rule 12 (Expressao -> NUM .)
+    RPAREN          reduce using rule 12 (Expressao -> NUM .)
+    ENDDEFINE       reduce using rule 12 (Expressao -> NUM .)
+    VEZES           shift and go to state 40
+    MAIS            shift and go to state 41
+    MENOS           shift and go to state 42
+    DIV             shift and go to state 43
+
+    Operador                       shift and go to state 44
+
+state 28
+
+    (14) Expressao -> Operacao .
+
+    IF              reduce using rule 14 (Expressao -> Operacao .)
+    WHILE           reduce using rule 14 (Expressao -> Operacao .)
+    DEFINE          reduce using rule 14 (Expressao -> Operacao .)
+    PALAVRA         reduce using rule 14 (Expressao -> Operacao .)
+    $end            reduce using rule 14 (Expressao -> Operacao .)
+    ENDIF           reduce using rule 14 (Expressao -> Operacao .)
+    ELSE            reduce using rule 14 (Expressao -> Operacao .)
+    ENDWHILE        reduce using rule 14 (Expressao -> Operacao .)
+    RETURN          reduce using rule 14 (Expressao -> Operacao .)
+    ENDELSE         reduce using rule 14 (Expressao -> Operacao .)
+    MAIOR           reduce using rule 14 (Expressao -> Operacao .)
+    MENOR           reduce using rule 14 (Expressao -> Operacao .)
+    NAO             reduce using rule 14 (Expressao -> Operacao .)
+    IGUAL           reduce using rule 14 (Expressao -> Operacao .)
+    RPAREN          reduce using rule 14 (Expressao -> Operacao .)
+    ENDDEFINE       reduce using rule 14 (Expressao -> Operacao .)
+
+
+state 29
+
+    (15) Expressao -> ChamadaFuncao .
+
+    IF              reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    WHILE           reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    DEFINE          reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    PALAVRA         reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    $end            reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    ENDIF           reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    ELSE            reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    ENDWHILE        reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    RETURN          reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    ENDELSE         reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    MAIOR           reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    MENOR           reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    NAO             reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    IGUAL           reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    RPAREN          reduce using rule 15 (Expressao -> ChamadaFuncao .)
+    ENDDEFINE       reduce using rule 15 (Expressao -> ChamadaFuncao .)
+
+
+state 30
+
+    (46) VAR -> PALAVRA .
+    (45) F -> PALAVRA . LPAREN RPAREN
+
+    VEZES           reduce using rule 46 (VAR -> PALAVRA .)
+    MAIS            reduce using rule 46 (VAR -> PALAVRA .)
+    MENOS           reduce using rule 46 (VAR -> PALAVRA .)
+    DIV             reduce using rule 46 (VAR -> PALAVRA .)
+    IF              reduce using rule 46 (VAR -> PALAVRA .)
+    WHILE           reduce using rule 46 (VAR -> PALAVRA .)
+    DEFINE          reduce using rule 46 (VAR -> PALAVRA .)
+    PALAVRA         reduce using rule 46 (VAR -> PALAVRA .)
+    $end            reduce using rule 46 (VAR -> PALAVRA .)
+    ENDIF           reduce using rule 46 (VAR -> PALAVRA .)
+    ELSE            reduce using rule 46 (VAR -> PALAVRA .)
+    ENDWHILE        reduce using rule 46 (VAR -> PALAVRA .)
+    RETURN          reduce using rule 46 (VAR -> PALAVRA .)
+    ENDELSE         reduce using rule 46 (VAR -> PALAVRA .)
+    MAIOR           reduce using rule 46 (VAR -> PALAVRA .)
+    MENOR           reduce using rule 46 (VAR -> PALAVRA .)
+    NAO             reduce using rule 46 (VAR -> PALAVRA .)
+    IGUAL           reduce using rule 46 (VAR -> PALAVRA .)
+    RPAREN          reduce using rule 46 (VAR -> PALAVRA .)
+    ENDDEFINE       reduce using rule 46 (VAR -> PALAVRA .)
+    LPAREN          shift and go to state 38
+
+
+state 31
+
+    (16) ChamadaFuncao -> F .
+
+    IF              reduce using rule 16 (ChamadaFuncao -> F .)
+    WHILE           reduce using rule 16 (ChamadaFuncao -> F .)
+    DEFINE          reduce using rule 16 (ChamadaFuncao -> F .)
+    PALAVRA         reduce using rule 16 (ChamadaFuncao -> F .)
+    $end            reduce using rule 16 (ChamadaFuncao -> F .)
+    ENDIF           reduce using rule 16 (ChamadaFuncao -> F .)
+    ELSE            reduce using rule 16 (ChamadaFuncao -> F .)
+    ENDWHILE        reduce using rule 16 (ChamadaFuncao -> F .)
+    RETURN          reduce using rule 16 (ChamadaFuncao -> F .)
+    ENDELSE         reduce using rule 16 (ChamadaFuncao -> F .)
+    MAIOR           reduce using rule 16 (ChamadaFuncao -> F .)
+    MENOR           reduce using rule 16 (ChamadaFuncao -> F .)
+    NAO             reduce using rule 16 (ChamadaFuncao -> F .)
+    IGUAL           reduce using rule 16 (ChamadaFuncao -> F .)
+    RPAREN          reduce using rule 16 (ChamadaFuncao -> F .)
+    ENDDEFINE       reduce using rule 16 (ChamadaFuncao -> F .)
+
+
+state 32
+
+    (25) Selecao -> IF Condicao DOISPT . Corpo ENDIF
+    (26) Selecao -> IF Condicao DOISPT . Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (40) Corpo -> . C Corpo
+    (41) Corpo -> . C
+    (42) C -> . Selecao
+    (43) C -> . Atribuicao
+    (44) C -> . Ciclo
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (46) VAR -> . PALAVRA
+
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    PALAVRA         shift and go to state 16
+
+    Corpo                          shift and go to state 45
+    C                              shift and go to state 46
+    Selecao                        shift and go to state 47
+    Atribuicao                     shift and go to state 48
+    Ciclo                          shift and go to state 49
+    VAR                            shift and go to state 8
+
+state 33
+
+    (28) Condicao -> LPAREN Expressao . Comparador Expressao RPAREN
+    (33) Comparador -> . MAIOR
+    (34) Comparador -> . MENOR
+    (35) Comparador -> . MAIOR IGUAL
+    (36) Comparador -> . MENOR IGUAL
+    (37) Comparador -> . NAO IGUAL
+    (38) Comparador -> . IGUAL IGUAL
+
+    MAIOR           shift and go to state 51
+    MENOR           shift and go to state 52
+    NAO             shift and go to state 54
+    IGUAL           shift and go to state 53
+
+    Comparador                     shift and go to state 50
+
+state 34
+
+    (29) Condicao -> LPAREN Condicao . AND Condicao RPAREN
+    (30) Condicao -> LPAREN Condicao . OR Condicao RPAREN
+    (32) Condicao -> LPAREN Condicao . RPAREN
+
+    AND             shift and go to state 55
+    OR              shift and go to state 57
+    RPAREN          shift and go to state 56
+
+
+state 35
+
+    (31) Condicao -> LPAREN NAO . Condicao RPAREN
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+
+    LPAREN          shift and go to state 21
+
+    Condicao                       shift and go to state 58
+
+state 36
+
+    (27) Ciclo -> WHILE Condicao DOISPT . Corpo ENDWHILE
+    (40) Corpo -> . C Corpo
+    (41) Corpo -> . C
+    (42) C -> . Selecao
+    (43) C -> . Atribuicao
+    (44) C -> . Ciclo
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (46) VAR -> . PALAVRA
+
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    PALAVRA         shift and go to state 16
+
+    Corpo                          shift and go to state 59
+    C                              shift and go to state 46
+    Selecao                        shift and go to state 47
+    Atribuicao                     shift and go to state 48
+    Ciclo                          shift and go to state 49
+    VAR                            shift and go to state 8
+
+state 37
+
+    (39) Subprograma -> DEFINE F DOISPT . Corpo RETURN Expressao ENDDEFINE
+    (40) Corpo -> . C Corpo
+    (41) Corpo -> . C
+    (42) C -> . Selecao
+    (43) C -> . Atribuicao
+    (44) C -> . Ciclo
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (46) VAR -> . PALAVRA
+
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    PALAVRA         shift and go to state 16
+
+    Corpo                          shift and go to state 60
+    C                              shift and go to state 46
+    Selecao                        shift and go to state 47
+    Atribuicao                     shift and go to state 48
+    Ciclo                          shift and go to state 49
+    VAR                            shift and go to state 8
+
+state 38
+
+    (45) F -> PALAVRA LPAREN . RPAREN
+
+    RPAREN          shift and go to state 61
+
+
+state 39
+
+    (17) Operacao -> VAR Operador . VAR
+    (20) Operacao -> VAR Operador . NUM
+    (46) VAR -> . PALAVRA
+
+    NUM             shift and go to state 63
+    PALAVRA         shift and go to state 16
+
+    VAR                            shift and go to state 62
+
+state 40
+
+    (21) Operador -> VEZES .
+
+    NUM             reduce using rule 21 (Operador -> VEZES .)
+    PALAVRA         reduce using rule 21 (Operador -> VEZES .)
+
+
+state 41
+
+    (22) Operador -> MAIS .
+
+    NUM             reduce using rule 22 (Operador -> MAIS .)
+    PALAVRA         reduce using rule 22 (Operador -> MAIS .)
+
+
+state 42
+
+    (23) Operador -> MENOS .
+
+    NUM             reduce using rule 23 (Operador -> MENOS .)
+    PALAVRA         reduce using rule 23 (Operador -> MENOS .)
+
+
+state 43
+
+    (24) Operador -> DIV .
+
+    NUM             reduce using rule 24 (Operador -> DIV .)
+    PALAVRA         reduce using rule 24 (Operador -> DIV .)
+
+
+state 44
+
+    (18) Operacao -> NUM Operador . NUM
+    (19) Operacao -> NUM Operador . VAR
+    (46) VAR -> . PALAVRA
+
+    NUM             shift and go to state 64
+    PALAVRA         shift and go to state 16
+
+    VAR                            shift and go to state 65
+
+state 45
+
+    (25) Selecao -> IF Condicao DOISPT Corpo . ENDIF
+    (26) Selecao -> IF Condicao DOISPT Corpo . ELSE DOISPT Corpo ENDELSE ENDIF
+
+    ENDIF           shift and go to state 66
+    ELSE            shift and go to state 67
+
+
+state 46
+
+    (40) Corpo -> C . Corpo
+    (41) Corpo -> C .
+    (40) Corpo -> . C Corpo
+    (41) Corpo -> . C
+    (42) C -> . Selecao
+    (43) C -> . Atribuicao
+    (44) C -> . Ciclo
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (46) VAR -> . PALAVRA
+
+    ENDIF           reduce using rule 41 (Corpo -> C .)
+    ELSE            reduce using rule 41 (Corpo -> C .)
+    ENDWHILE        reduce using rule 41 (Corpo -> C .)
+    RETURN          reduce using rule 41 (Corpo -> C .)
+    ENDELSE         reduce using rule 41 (Corpo -> C .)
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    PALAVRA         shift and go to state 16
+
+    C                              shift and go to state 46
+    Corpo                          shift and go to state 68
+    Selecao                        shift and go to state 47
+    Atribuicao                     shift and go to state 48
+    Ciclo                          shift and go to state 49
+    VAR                            shift and go to state 8
+
+state 47
+
+    (42) C -> Selecao .
+
+    IF              reduce using rule 42 (C -> Selecao .)
+    WHILE           reduce using rule 42 (C -> Selecao .)
+    PALAVRA         reduce using rule 42 (C -> Selecao .)
+    ENDIF           reduce using rule 42 (C -> Selecao .)
+    ELSE            reduce using rule 42 (C -> Selecao .)
+    ENDWHILE        reduce using rule 42 (C -> Selecao .)
+    RETURN          reduce using rule 42 (C -> Selecao .)
+    ENDELSE         reduce using rule 42 (C -> Selecao .)
+
+
+state 48
+
+    (43) C -> Atribuicao .
+
+    IF              reduce using rule 43 (C -> Atribuicao .)
+    WHILE           reduce using rule 43 (C -> Atribuicao .)
+    PALAVRA         reduce using rule 43 (C -> Atribuicao .)
+    ENDIF           reduce using rule 43 (C -> Atribuicao .)
+    ELSE            reduce using rule 43 (C -> Atribuicao .)
+    ENDWHILE        reduce using rule 43 (C -> Atribuicao .)
+    RETURN          reduce using rule 43 (C -> Atribuicao .)
+    ENDELSE         reduce using rule 43 (C -> Atribuicao .)
+
+
+state 49
+
+    (44) C -> Ciclo .
+
+    IF              reduce using rule 44 (C -> Ciclo .)
+    WHILE           reduce using rule 44 (C -> Ciclo .)
+    PALAVRA         reduce using rule 44 (C -> Ciclo .)
+    ENDIF           reduce using rule 44 (C -> Ciclo .)
+    ELSE            reduce using rule 44 (C -> Ciclo .)
+    ENDWHILE        reduce using rule 44 (C -> Ciclo .)
+    RETURN          reduce using rule 44 (C -> Ciclo .)
+    ENDELSE         reduce using rule 44 (C -> Ciclo .)
+
+
+state 50
+
+    (28) Condicao -> LPAREN Expressao Comparador . Expressao RPAREN
+    (12) Expressao -> . NUM
+    (13) Expressao -> . VAR
+    (14) Expressao -> . Operacao
+    (15) Expressao -> . ChamadaFuncao
+    (46) VAR -> . PALAVRA
+    (17) Operacao -> . VAR Operador VAR
+    (18) Operacao -> . NUM Operador NUM
+    (19) Operacao -> . NUM Operador VAR
+    (20) Operacao -> . VAR Operador NUM
+    (16) ChamadaFuncao -> . F
+    (45) F -> . PALAVRA LPAREN RPAREN
+
+    NUM             shift and go to state 27
+    PALAVRA         shift and go to state 30
+
+    Expressao                      shift and go to state 69
+    VAR                            shift and go to state 25
+    Operacao                       shift and go to state 28
+    ChamadaFuncao                  shift and go to state 29
+    F                              shift and go to state 31
+
+state 51
+
+    (33) Comparador -> MAIOR .
+    (35) Comparador -> MAIOR . IGUAL
+
+    NUM             reduce using rule 33 (Comparador -> MAIOR .)
+    PALAVRA         reduce using rule 33 (Comparador -> MAIOR .)
+    IGUAL           shift and go to state 70
+
+
+state 52
+
+    (34) Comparador -> MENOR .
+    (36) Comparador -> MENOR . IGUAL
+
+    NUM             reduce using rule 34 (Comparador -> MENOR .)
+    PALAVRA         reduce using rule 34 (Comparador -> MENOR .)
+    IGUAL           shift and go to state 71
+
+
+state 53
+
+    (38) Comparador -> IGUAL . IGUAL
+
+    IGUAL           shift and go to state 72
+
+
+state 54
+
+    (37) Comparador -> NAO . IGUAL
+
+    IGUAL           shift and go to state 73
+
+
+state 55
+
+    (29) Condicao -> LPAREN Condicao AND . Condicao RPAREN
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+
+    LPAREN          shift and go to state 21
+
+    Condicao                       shift and go to state 74
+
+state 56
+
+    (32) Condicao -> LPAREN Condicao RPAREN .
+
+    DOISPT          reduce using rule 32 (Condicao -> LPAREN Condicao RPAREN .)
+    AND             reduce using rule 32 (Condicao -> LPAREN Condicao RPAREN .)
+    OR              reduce using rule 32 (Condicao -> LPAREN Condicao RPAREN .)
+    RPAREN          reduce using rule 32 (Condicao -> LPAREN Condicao RPAREN .)
+
+
+state 57
+
+    (30) Condicao -> LPAREN Condicao OR . Condicao RPAREN
+    (28) Condicao -> . LPAREN Expressao Comparador Expressao RPAREN
+    (29) Condicao -> . LPAREN Condicao AND Condicao RPAREN
+    (30) Condicao -> . LPAREN Condicao OR Condicao RPAREN
+    (31) Condicao -> . LPAREN NAO Condicao RPAREN
+    (32) Condicao -> . LPAREN Condicao RPAREN
+
+    LPAREN          shift and go to state 21
+
+    Condicao                       shift and go to state 75
+
+state 58
+
+    (31) Condicao -> LPAREN NAO Condicao . RPAREN
+
+    RPAREN          shift and go to state 76
+
+
+state 59
+
+    (27) Ciclo -> WHILE Condicao DOISPT Corpo . ENDWHILE
+
+    ENDWHILE        shift and go to state 77
+
+
+state 60
+
+    (39) Subprograma -> DEFINE F DOISPT Corpo . RETURN Expressao ENDDEFINE
+
+    RETURN          shift and go to state 78
+
+
+state 61
+
+    (45) F -> PALAVRA LPAREN RPAREN .
+
+    DOISPT          reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    IF              reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    WHILE           reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    DEFINE          reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    PALAVRA         reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    $end            reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    ENDIF           reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    ELSE            reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    ENDWHILE        reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    RETURN          reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    ENDELSE         reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    MAIOR           reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    MENOR           reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    NAO             reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    IGUAL           reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    RPAREN          reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+    ENDDEFINE       reduce using rule 45 (F -> PALAVRA LPAREN RPAREN .)
+
+
+state 62
+
+    (17) Operacao -> VAR Operador VAR .
+
+    IF              reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    WHILE           reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    DEFINE          reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    PALAVRA         reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    $end            reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    ENDIF           reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    ELSE            reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    ENDWHILE        reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    RETURN          reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    ENDELSE         reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    MAIOR           reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    MENOR           reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    NAO             reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    IGUAL           reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    RPAREN          reduce using rule 17 (Operacao -> VAR Operador VAR .)
+    ENDDEFINE       reduce using rule 17 (Operacao -> VAR Operador VAR .)
+
+
+state 63
+
+    (20) Operacao -> VAR Operador NUM .
+
+    IF              reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    WHILE           reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    DEFINE          reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    PALAVRA         reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    $end            reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    ENDIF           reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    ELSE            reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    ENDWHILE        reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    RETURN          reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    ENDELSE         reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    MAIOR           reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    MENOR           reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    NAO             reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    IGUAL           reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    RPAREN          reduce using rule 20 (Operacao -> VAR Operador NUM .)
+    ENDDEFINE       reduce using rule 20 (Operacao -> VAR Operador NUM .)
+
+
+state 64
+
+    (18) Operacao -> NUM Operador NUM .
+
+    IF              reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    WHILE           reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    DEFINE          reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    PALAVRA         reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    $end            reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    ENDIF           reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    ELSE            reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    ENDWHILE        reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    RETURN          reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    ENDELSE         reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    MAIOR           reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    MENOR           reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    NAO             reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    IGUAL           reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    RPAREN          reduce using rule 18 (Operacao -> NUM Operador NUM .)
+    ENDDEFINE       reduce using rule 18 (Operacao -> NUM Operador NUM .)
+
+
+state 65
+
+    (19) Operacao -> NUM Operador VAR .
+
+    IF              reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    WHILE           reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    DEFINE          reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    PALAVRA         reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    $end            reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    ENDIF           reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    ELSE            reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    ENDWHILE        reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    RETURN          reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    ENDELSE         reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    MAIOR           reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    MENOR           reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    NAO             reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    IGUAL           reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    RPAREN          reduce using rule 19 (Operacao -> NUM Operador VAR .)
+    ENDDEFINE       reduce using rule 19 (Operacao -> NUM Operador VAR .)
+
+
+state 66
+
+    (25) Selecao -> IF Condicao DOISPT Corpo ENDIF .
+
+    IF              reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    WHILE           reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    DEFINE          reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    PALAVRA         reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    $end            reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    ENDIF           reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    ELSE            reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    ENDWHILE        reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    RETURN          reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+    ENDELSE         reduce using rule 25 (Selecao -> IF Condicao DOISPT Corpo ENDIF .)
+
+
+state 67
+
+    (26) Selecao -> IF Condicao DOISPT Corpo ELSE . DOISPT Corpo ENDELSE ENDIF
+
+    DOISPT          shift and go to state 79
+
+
+state 68
+
+    (40) Corpo -> C Corpo .
+
+    ENDIF           reduce using rule 40 (Corpo -> C Corpo .)
+    ELSE            reduce using rule 40 (Corpo -> C Corpo .)
+    ENDWHILE        reduce using rule 40 (Corpo -> C Corpo .)
+    RETURN          reduce using rule 40 (Corpo -> C Corpo .)
+    ENDELSE         reduce using rule 40 (Corpo -> C Corpo .)
+
+
+state 69
+
+    (28) Condicao -> LPAREN Expressao Comparador Expressao . RPAREN
+
+    RPAREN          shift and go to state 80
+
+
+state 70
+
+    (35) Comparador -> MAIOR IGUAL .
+
+    NUM             reduce using rule 35 (Comparador -> MAIOR IGUAL .)
+    PALAVRA         reduce using rule 35 (Comparador -> MAIOR IGUAL .)
+
+
+state 71
+
+    (36) Comparador -> MENOR IGUAL .
+
+    NUM             reduce using rule 36 (Comparador -> MENOR IGUAL .)
+    PALAVRA         reduce using rule 36 (Comparador -> MENOR IGUAL .)
+
+
+state 72
+
+    (38) Comparador -> IGUAL IGUAL .
+
+    NUM             reduce using rule 38 (Comparador -> IGUAL IGUAL .)
+    PALAVRA         reduce using rule 38 (Comparador -> IGUAL IGUAL .)
+
+
+state 73
+
+    (37) Comparador -> NAO IGUAL .
+
+    NUM             reduce using rule 37 (Comparador -> NAO IGUAL .)
+    PALAVRA         reduce using rule 37 (Comparador -> NAO IGUAL .)
+
+
+state 74
+
+    (29) Condicao -> LPAREN Condicao AND Condicao . RPAREN
+
+    RPAREN          shift and go to state 81
+
+
+state 75
+
+    (30) Condicao -> LPAREN Condicao OR Condicao . RPAREN
+
+    RPAREN          shift and go to state 82
+
+
+state 76
+
+    (31) Condicao -> LPAREN NAO Condicao RPAREN .
+
+    DOISPT          reduce using rule 31 (Condicao -> LPAREN NAO Condicao RPAREN .)
+    AND             reduce using rule 31 (Condicao -> LPAREN NAO Condicao RPAREN .)
+    OR              reduce using rule 31 (Condicao -> LPAREN NAO Condicao RPAREN .)
+    RPAREN          reduce using rule 31 (Condicao -> LPAREN NAO Condicao RPAREN .)
+
+
+state 77
+
+    (27) Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .
+
+    IF              reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    WHILE           reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    DEFINE          reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    PALAVRA         reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    $end            reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    ENDIF           reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    ELSE            reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    ENDWHILE        reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    RETURN          reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+    ENDELSE         reduce using rule 27 (Ciclo -> WHILE Condicao DOISPT Corpo ENDWHILE .)
+
+
+state 78
+
+    (39) Subprograma -> DEFINE F DOISPT Corpo RETURN . Expressao ENDDEFINE
+    (12) Expressao -> . NUM
+    (13) Expressao -> . VAR
+    (14) Expressao -> . Operacao
+    (15) Expressao -> . ChamadaFuncao
+    (46) VAR -> . PALAVRA
+    (17) Operacao -> . VAR Operador VAR
+    (18) Operacao -> . NUM Operador NUM
+    (19) Operacao -> . NUM Operador VAR
+    (20) Operacao -> . VAR Operador NUM
+    (16) ChamadaFuncao -> . F
+    (45) F -> . PALAVRA LPAREN RPAREN
+
+    NUM             shift and go to state 27
+    PALAVRA         shift and go to state 30
+
+    F                              shift and go to state 31
+    Expressao                      shift and go to state 83
+    VAR                            shift and go to state 25
+    Operacao                       shift and go to state 28
+    ChamadaFuncao                  shift and go to state 29
+
+state 79
+
+    (26) Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT . Corpo ENDELSE ENDIF
+    (40) Corpo -> . C Corpo
+    (41) Corpo -> . C
+    (42) C -> . Selecao
+    (43) C -> . Atribuicao
+    (44) C -> . Ciclo
+    (25) Selecao -> . IF Condicao DOISPT Corpo ENDIF
+    (26) Selecao -> . IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF
+    (11) Atribuicao -> . VAR IGUAL Expressao
+    (27) Ciclo -> . WHILE Condicao DOISPT Corpo ENDWHILE
+    (46) VAR -> . PALAVRA
+
+    IF              shift and go to state 13
+    WHILE           shift and go to state 14
+    PALAVRA         shift and go to state 16
+
+    Corpo                          shift and go to state 84
+    C                              shift and go to state 46
+    Selecao                        shift and go to state 47
+    Atribuicao                     shift and go to state 48
+    Ciclo                          shift and go to state 49
+    VAR                            shift and go to state 8
+
+state 80
+
+    (28) Condicao -> LPAREN Expressao Comparador Expressao RPAREN .
+
+    DOISPT          reduce using rule 28 (Condicao -> LPAREN Expressao Comparador Expressao RPAREN .)
+    AND             reduce using rule 28 (Condicao -> LPAREN Expressao Comparador Expressao RPAREN .)
+    OR              reduce using rule 28 (Condicao -> LPAREN Expressao Comparador Expressao RPAREN .)
+    RPAREN          reduce using rule 28 (Condicao -> LPAREN Expressao Comparador Expressao RPAREN .)
+
+
+state 81
+
+    (29) Condicao -> LPAREN Condicao AND Condicao RPAREN .
+
+    DOISPT          reduce using rule 29 (Condicao -> LPAREN Condicao AND Condicao RPAREN .)
+    AND             reduce using rule 29 (Condicao -> LPAREN Condicao AND Condicao RPAREN .)
+    OR              reduce using rule 29 (Condicao -> LPAREN Condicao AND Condicao RPAREN .)
+    RPAREN          reduce using rule 29 (Condicao -> LPAREN Condicao AND Condicao RPAREN .)
+
+
+state 82
+
+    (30) Condicao -> LPAREN Condicao OR Condicao RPAREN .
+
+    DOISPT          reduce using rule 30 (Condicao -> LPAREN Condicao OR Condicao RPAREN .)
+    AND             reduce using rule 30 (Condicao -> LPAREN Condicao OR Condicao RPAREN .)
+    OR              reduce using rule 30 (Condicao -> LPAREN Condicao OR Condicao RPAREN .)
+    RPAREN          reduce using rule 30 (Condicao -> LPAREN Condicao OR Condicao RPAREN .)
+
+
+state 83
+
+    (39) Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao . ENDDEFINE
+
+    ENDDEFINE       shift and go to state 85
+
+
+state 84
+
+    (26) Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo . ENDELSE ENDIF
+
+    ENDELSE         shift and go to state 86
+
+
+state 85
+
+    (39) Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .
+
+    IF              reduce using rule 39 (Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .)
+    WHILE           reduce using rule 39 (Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .)
+    DEFINE          reduce using rule 39 (Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .)
+    PALAVRA         reduce using rule 39 (Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .)
+    $end            reduce using rule 39 (Subprograma -> DEFINE F DOISPT Corpo RETURN Expressao ENDDEFINE .)
+
+
+state 86
+
+    (26) Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE . ENDIF
+
+    ENDIF           shift and go to state 87
+
+
+state 87
+
+    (26) Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .
+
+    IF              reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    WHILE           reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    DEFINE          reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    PALAVRA         reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    $end            reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    ENDIF           reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    ELSE            reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    ENDWHILE        reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    RETURN          reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+    ENDELSE         reduce using rule 26 (Selecao -> IF Condicao DOISPT Corpo ELSE DOISPT Corpo ENDELSE ENDIF .)
+

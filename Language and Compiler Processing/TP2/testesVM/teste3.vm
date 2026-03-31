@@ -1,0 +1,26 @@
+PUSHI 0
+START
+READ
+ATOI
+STOREG 0
+PUSHA paridade
+CALL
+STOP
+paridade:
+PUSHG 0
+PUSHI 2
+MOD
+PUSHI 0
+EQUAL
+JZ label0
+PUSHS "é par"
+WRITES
+WRITELN
+JUMP label0f
+label0: NOP
+PUSHS "não é par"
+WRITES
+WRITELN
+label0f: NOP
+PUSHG 0
+RETURN

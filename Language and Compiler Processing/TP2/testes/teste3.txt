@@ -1,0 +1,14 @@
+int x
+
+define paridade():
+  if (x % 2 == 0):
+    print("é par")
+  else:
+    print("não é par")
+  endelse
+  endif
+  return x
+enddefine
+
+x = input
+paridade()

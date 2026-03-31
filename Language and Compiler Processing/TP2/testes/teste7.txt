@@ -1,0 +1,6 @@
+int x
+int y
+
+y = x + 1
+
+print(y)

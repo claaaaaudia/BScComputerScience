@@ -1,0 +1,15 @@
+int x
+int y
+
+x = 10
+y = 20
+
+define fun():
+   x = x - 1
+   return x
+enddefine
+
+if (x < y):
+   fun()
+endif
+

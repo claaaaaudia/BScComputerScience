@@ -1,0 +1,21 @@
+int a 
+int b
+int temp
+int result
+
+define mdc():
+  a = input
+  b = input
+
+  while (b != 0) :
+    temp = b
+    b = a % b
+    a = temp
+  endwhile
+
+  return a
+enddefine
+
+result = mdc()
+print("MDC é ")
+print(result)
