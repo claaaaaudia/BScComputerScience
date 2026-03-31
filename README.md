@@ -4,8 +4,6 @@ This repository is a collection of projects and lab assignments developed throug
 
 Each folder contains the corresponding source code and reports for specific courses. Below is an overview of the projects, along with their main goals and the skills acquired.
 
----
-
 ## 🧩 Algorithmics Lab
 
 First ever university project! A **terminal-based dungeon crawler** built using `ncurses`.
