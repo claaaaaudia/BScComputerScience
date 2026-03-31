@@ -1,0 +1,8 @@
+## ⚛️ Interaction and Concurrency
+
+This project consists of 2 practical assignments, respectively covering Quantum Computing and Reactive Systems. The first handout includes two problems, from which we had to chose one.
+
+- The first assignment, from the Quantum Computing module, focuses on applying Grover’s algorithm to solve constraint problems. It is divided into two exercises. The chosen problem explores the 3-SAT Problem, where the task is to propose a satisfiable Boolean formula in conjunctive normal form and then implement Grover’s algorithm to find a solution more efficiently than classical brute force search, followed by an evaluation of its performance.
+- The second assignment, from the Reactive Systems course, deals with formal reasoning about concurrent systems using labelled transition systems and process algebra. The first problem introduces the concept of word bisimulation, asking for a formal definition of transitions over sequences of actions and a discussion on equivalence between states under this notion. The second problem is more practical, requiring the use of mCRL2 to analyse a model of a railway-road crossing system composed of interacting processes. The task is to describe the system’s behaviour, draw its synchronisation diagram, generate its transition system using the tool, and explore further analysis possibilities such as verification of properties or detection of undesirable behaviours.
+
+🎯 Skills acquired: quantum computing, Grover’s algorithm, computational complexity, rigorous reasoning, concurrent systems, analysis of deadlock/synchronization issues, formal specification.

@@ -1,0 +1,7 @@
+## 🏋️ Object Oriented Programming
+
+This project is a Fitness Application developed in Java that allows users to create profiles, log physical activities, and build training plans. It supports multiple user types (amateur, casual, and professional), each with different calorie-burn multipliers, and four categories of activities based on distance, distance with altimetry, repetitions, or repetitions with weights. A quiz system is used at registration to determine which user type best fits the new account.
+
+Beyond basic profile and activity management, the app offers several notable features: automatic training plan generation based on user-defined preferences (such as intensity level, weekly frequency, and minimum calorie burn), statistical queries covering metrics like most calories burned and most active users over a given period, and the ability to simulate the passage of time to mark scheduled activities as completed. The application's state can be saved and reloaded at any time, and custom exceptions handle errors gracefully - such as attempting to generate a plan when too few activities exist or registering a duplicate user - ensuring the program remains stable throughout use.
+
+🎯 Skills acquired: programming in OOP paradigm, development of an app.

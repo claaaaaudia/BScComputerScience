@@ -1,0 +1,8 @@
+## 🧾 Language and Compiler Processing
+
+This folder includes two projects:
+
+The first project implements a small data processor in Python that analyses sets of text records using regular expressions, calculates statistical metrics and generates structured output for visualisation and standardisation: in the main case, it reads the sports medical examination file, determines age ranges, distributions by gender and sport, percentages of fit and unfit individuals per year, exports pairs of potentially reversed male names to JSON and automatically generates an HTML report; in addition, it includes an extra exercise on an archive of traditional songs to measure the percentage of entries with MP3 recordings and list their respective titles.
+The second project involved designing and implementing a custom imperative programming language named Rissol - playfully named after a beloved Portuguese snack. The language supports integer variable declaration and assignment, arithmetic and logical operations, comparison operators, if/else selection statements, while loops, subprogram definition and invocation (returning integers), and standard input/output. The lexical analyser and parser were implemented in Python using Lex and Yacc, with Assembly translation rules embedded directly in the parser, targeting the EWVM virtual machine provided by the University. The report documents the language's context-free grammar. The generated Assembly code handles stack operations, jumps, and function calls for the virtual machine.
+
+🎯 Skills acquired: practical use of automata, languages and grammars; compiler construction and low-level machine language concepts.

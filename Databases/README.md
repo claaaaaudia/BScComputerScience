@@ -1,0 +1,7 @@
+## 🗄️ Databases
+
+This project, developed by a (fictional!) team of data engineers at the company Beyond Digital™, consists of designing and implementing a database system to support the management and operational needs of the Olympic Games. The system aims to handle athlete registration, team management, and results tracking, with initial deployment targeted at the 2026 Winter Games in Italy and potential use in future editions. The project was carried out in phases over several months, beginning with requirements gathering through interviews, meetings, “direct observation”, and questionnaires, followed by validation, conceptual modeling (entity identification, attribute definition, and relationship mapping), and logical modeling with normalization and organizational sign-off.
+
+The development followed a structured data engineering methodology, progressing from project scoping and feasibility analysis through to a fully validated logical data model ready for implementation. The database is designed to serve both the organizing body and participants, providing a reliable and scalable foundation for one of the world's largest sporting events.
+
+🎯 Skills acquired: requirements engineering, databases, project development.

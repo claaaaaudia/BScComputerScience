@@ -1,0 +1,10 @@
+## 🧠 Computational Logic
+
+This project consists of 4 practical assignments:
+
+- TP1 focuses on constraint satisfaction and SAT-based scheduling, solving two problems: building a weekly meeting timetable for a startup that respects room availability, participant schedules, project leadership rules, and quorum requirements; and modelling a directed traffic graph to determine the maximum number of roads that can be removed while keeping the network fully connected.
+- TP2 applies formal verification using Z3 and BitVectors to two systems: modelling the A5/1 stream cipher as a finite state machine and checking reachability of error properties (burst patterns) from random initial states; and constructing a Symbolic Finite-State Transition System (SFOTS) for a bit-vector integer multiplication algorithm, then verifying a safety invariant and proving the error state is unreachable using k-induction.
+- TP3 targets the Extended Euclidean Algorithm (EXA) through three complementary approaches: building a BitVector SFOTS and proving safety (no overflow, no error state) using invariants and interpolants; constructing a Control Flow Automaton (CFA) with predicate transformers and solving the resulting safety equation system in Z3, optionally visualised with NetworkX; and revisiting the A5/1 cipher FOTS from TP2 to apply the PDR (Property Directed Reachability) algorithm and attempt to prove the safety of the three LFSR model.
+- TP4 shifts to hybrid systems and program correctness: designing a hybrid automaton for an ABS braking system with discrete modes (Free, Stopping, Blocked, Stopped) and continuous velocity variables, with student-defined transition guards to ensure fast stopping without excessive skidding; and formally proving the correctness of the Extended Euclidean Algorithm by constructing its post-condition assertion, writing the program in annotated command language (LPA) with a havoc-based loop treatment, and verifying it using strongest post-condition predicate transformers.
+
+🎯 Skills acquired: SAT, optimization, model checking, LTL and CTL logics, bounded model checking.
