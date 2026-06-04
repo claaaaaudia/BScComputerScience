@@ -17,12 +17,6 @@ You play as a former cook on a revenge quest against the villainous **Chef Passa
 
 🎯 **Goal:** Clear all 15 levels and defeat the final boss.
 
-**Key Features:**
-
-* Procedural map generation
-* Progressive difficulty scaling
-* Character upgrades (vision, damage, health, etc.)
-
 **Skills acquired:**
 `Imperative Programming` · `Data Structures`
 
@@ -30,20 +24,14 @@ You play as a former cook on a revenge quest against the villainous **Chef Passa
 
 ## 🧮 Algebra of Programming
 
-A project focused on **formal and algebraic approaches** to program construction using Haskell.
+A project focused on **formal and algebraic approaches** to program construction using Haskell. Emphasis is placed on compositional design, higher-order combinators and literate programming.
 
-Emphasis is placed on:
+**Tasks:**
 
-* Compositional design
-* Higher-order combinators
-* Literate programming
-
-**Main Problems:**
-
-* 🗳️ Implementation of the **D’Hondt method** for seat allocation
-* 🔀 Generalization of merge sort via **hilomorphisms**
-* 🔢 Efficient computation of **Catalan numbers**
-* 📊 Solving the **largest rectangle in a histogram** problem
+* Implementation of the **D’Hondt method** for seat allocation
+* Generalization of merge sort via **hilomorphisms**
+* Efficient computation of **Catalan numbers**
+* Solving the **largest rectangle in a histogram** problem
 
 **Skills acquired:**
 `Recursion Schemes` · `Algorithm Optimization` · `Mathematical Reasoning`
@@ -63,10 +51,10 @@ A **Fitness Application** developed in Java.
 
 **Advanced Functionality:**
 
-* 📈 Statistical insights (e.g., most active users, calories burned)
-* ⏱️ Simulation of time progression
-* 💾 Persistent state (save/load)
-* ⚠️ Custom exception handling
+* Statistical insights (e.g., most active users, calories burned)
+* ⏱Simulation of time progression
+* Persistent state (save/load)
+* Custom exception handling
 
 **Skills acquired:**
 `OOP Design` · `Application Development`
@@ -104,13 +92,7 @@ A set of **4 practical assignments** exploring formal methods and verification.
 
 ## 🗄️ Databases
 
-A database system designed for managing the **Olympic Games** (fictional scenario).
-
-**Project Scope:**
-
-* Athlete registration
-* Team management
-* Results tracking
+A database system designed for managing the **Olympic Games** (fictional scenario). Useful for athlete registration, team management and results tracking.
 
 **Development Phases:**
 
@@ -119,7 +101,7 @@ A database system designed for managing the **Olympic Games** (fictional scenari
 3. Logical design (normalization)
 4. Validation and approval
 
-🎯 Target deployment: **2026 Winter Olympics (Italy)**
+🎯 Target "deployment": **2026 Winter Olympics (Italy)**
 
 **Skills acquired:**
 `Requirements Engineering` · `Database Design` · `Project Development`
@@ -132,20 +114,11 @@ Two distinct projects:
 
 ### 📊 Text Data Processor (Python)
 
-* Uses **regular expressions** for parsing
-* Generates statistics and structured outputs
-* Produces HTML reports and JSON exports
-
-**Use Cases:**
-
-* Medical fitness data analysis
-* Traditional songs dataset processing
-
----
+Uses **regular expressions** for parsing, generates statistics and structured outputs and produces HTML reports and JSON exports.
 
 ### 🧪 Rissol Programming Language
 
-A custom **imperative programming language**.
+A custom **imperative programming language**. Lexer & parser using **Lex/Yacc (Python)** and Assembly generation targeting EWVM.
 
 **Features:**
 
@@ -153,11 +126,6 @@ A custom **imperative programming language**.
 * Control flow (`if/else`, `while`)
 * Functions with return values
 * Input/output support
-
-**Implementation:**
-
-* Lexer & parser using **Lex/Yacc (Python)**
-* Assembly generation targeting EWVM
 
 **Skills acquired:**
 `Automata & Grammars` · `Compiler Construction` · `Low-Level Programming`
@@ -187,19 +155,13 @@ Two assignments covering **Quantum Computing** and **Reactive Systems**.
 
 ## ⚔️ Concurrent Programming
 
-A multiplayer dueling game: **Duelo**
-
-**Gameplay:**
-
-* 2-player real-time combat
-* Projectile shooting with modifiers
-* Score-based winner system (2-minute matches)
+A multiplayer dueling game: **Duelo**. 2-player real-time combat with projectile shooting with modifiers and score-based winner system (2-minute matches).
 
 **Architecture:**
 
-* 🖥️ Client: Java (graphics & input)
-* ⚙️ Server: Erlang (logic, physics, matchmaking)
-* 🔌 Communication via TCP sockets
+* Client: Java (graphics & input)
+* Server: Erlang (logic, physics, matchmaking)
+* Communication via TCP sockets
 
 **Additional Features:**
 
